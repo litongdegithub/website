@@ -21,8 +21,8 @@
   <main>
     <section lang="en">
       <h1>Privacy Policy</h1>
-      <p class="updated">Last updated: 21 October 2026</p>
-      <p>Shotwise (“Shotwise”, “we”, “us”) turns a video you choose into a written breakdown: style, shot list, actions, sound and a remake checklist. This policy explains what data the app handles, why, where it goes and how long we keep it.</p>
+      <p class="updated">Last updated: 27 October 2026</p>
+      <p>Shotwise (“Shotwise”, “we”, “us”) turns a video you choose into a written breakdown: style tags, a transcript of what is said, a shot list and a remake checklist. This policy explains what data the app handles, why, where it goes and how long we keep it.</p>
 
       <div class="summary">
         <h2>The short version</h2>
@@ -39,8 +39,8 @@
       <ol>
         <li><strong>Anonymous identifiers.</strong> On first launch the app creates a random device ID, kept in your phone’s keychain, and an anonymous account on our backend. We use them to count your free and purchased breakdowns and to prevent abuse. They aren’t linked to your name or contact details. The app only shows a short “support code” made from the device ID.</li>
         <li><strong>Videos you choose.</strong> When you start a breakdown, the app uploads that one video (picture and sound) to our server, and our AI providers analyze it. We delete it from our storage as soon as the analysis ends, whether it succeeds or not. An upload that is never analyzed, for example because you closed the app, is deleted within about an hour. Please don’t upload videos showing sensitive personal information.</li>
-        <li><strong>Breakdown reports.</strong> A report is stored on our server until the app fetches it, and deleted after 24 hours at the latest. Your history of reports is saved only on your phone.</li>
-        <li><strong>Usage and purchase records.</strong> For each breakdown we record when it ran, which AI model was used, whether it worked and how many tokens it used, with no content, to manage costs and limits. For purchases we keep your credit balance and the store transaction IDs, so credits are added exactly once. Payments are handled by Apple; we never see your payment details.</li>
+        <li><strong>Breakdown reports.</strong> A report, including the transcript of what is said in the video, is stored on our server until the app fetches it, and deleted after 24 hours at the latest. Your history of reports is saved only on your phone.</li>
+        <li><strong>Usage and purchase records.</strong> For each breakdown we record when it ran, which AI model was used, whether it worked and how many tokens it used, with no content, to manage costs and limits. For purchases we keep your credit balance and the store transaction IDs, so credits are added exactly once. Payments are handled by Apple and verified for us by RevenueCat (see below); we never see your payment details.</li>
         <li><strong>Support emails.</strong> If you email us, we receive your email address and message and use them only to reply.</li>
       </ol>
       <p>We don’t collect your location, contacts, advertising identifiers, or any photos or videos other than the one you pick.</p>
@@ -50,6 +50,7 @@
         <li><strong>Supabase</strong> runs our backend (database, file storage and server functions), hosted in Singapore.</li>
         <li><strong>OpenRouter</strong> (United States) passes your video to <strong>Alibaba Cloud’s Qwen</strong> model for analysis. We ask OpenRouter to use only providers that don’t store your content or train on it. Their own privacy policies also apply.</li>
         <li><strong>Apple</strong> handles in-app purchases.</li>
+        <li><strong>RevenueCat</strong> (United States) checks each in-app purchase with Apple and tells our server which credits to add. It receives the random device ID and your purchase records (which pack, price, currency, country and the store transaction ID), never your name or payment details. Its own privacy policy also applies.</li>
       </ul>
       <p>These services operate in different countries, so your data may be processed outside the country you live in, including in Singapore, the United States and China. We share only what each service needs to do its job.</p>
 
@@ -59,7 +60,7 @@
         <tr><td>Your video</td><td>Deleted right after analysis. Uploads that are never analyzed: about 1 hour.</td></tr>
         <tr><td>Report on our server</td><td>Until the app fetches it, 24 hours at most</td></tr>
         <tr><td>Usage records</td><td>90 days</td></tr>
-        <tr><td>Credit balance and purchase records</td><td>While you have credits, and as long as needed for accounting</td></tr>
+        <tr><td>Credit balance and purchase records</td><td>While you have credits, and as long as needed for accounting. RevenueCat keeps its copy of purchase records under its own policy.</td></tr>
         <tr><td>Support emails</td><td>As long as needed to help you</td></tr>
       </table>
 
@@ -87,8 +88,8 @@
 
     <section id="zh" lang="zh-Hans">
       <h1>隐私政策</h1>
-      <p class="updated">最后更新：2026 年 10 月 21 日</p>
-      <p>Shotwise（以下称“Shotwise”或“我们”）可以把你选择的视频拆解成文字：风格、分镜、动作、声音和翻拍清单。本政策说明 App 会处理哪些数据、为什么处理、发送给谁以及保存多久。</p>
+      <p class="updated">最后更新：2026 年 10 月 27 日</p>
+      <p>Shotwise（以下称“Shotwise”或“我们”）可以把你选择的视频拆解成文字：风格标签、视频里说的话的转写、分镜和翻拍清单。本政策说明 App 会处理哪些数据、为什么处理、发送给谁以及保存多久。</p>
 
       <div class="summary">
         <h2>简要说明</h2>
@@ -105,8 +106,8 @@
       <ol>
         <li><strong>匿名标识。</strong>首次打开时，App 会生成一个随机的设备 ID（保存在手机钥匙串中），并在我们的后端创建一个匿名账号，用来计算你的免费次数和已购次数，并防止滥用。它们不与你的姓名或联系方式关联。App 里只显示由设备 ID 生成的简短“支持码”。</li>
         <li><strong>你选择的视频。</strong>开始拆解时，App 会把这一个视频（包括画面和声音）上传到我们的服务器，由我们的 AI 服务商进行分析。无论分析成功与否，分析结束后都会立即从存储中删除。上传后没有被分析的视频（例如中途关掉了 App）会在大约 1 小时内删除。请不要上传包含个人敏感信息的视频。</li>
-        <li><strong>拆解报告。</strong>报告在服务器上保存到 App 取回为止，最迟 24 小时后删除。你的拆解记录只保存在手机上。</li>
-        <li><strong>使用和购买记录。</strong>每次拆解，我们会记录时间、使用的 AI 模型、是否成功和消耗的 token 数（不含任何内容），用于控制成本和限额。购买方面，我们保留你的次数余额和商店交易编号，确保每笔购买只到账一次。付款由 Apple 处理，我们看不到你的支付信息。</li>
+        <li><strong>拆解报告。</strong>报告（包括视频里说的话的转写）在服务器上保存到 App 取回为止，最迟 24 小时后删除。你的拆解记录只保存在手机上。</li>
+        <li><strong>使用和购买记录。</strong>每次拆解，我们会记录时间、使用的 AI 模型、是否成功和消耗的 token 数（不含任何内容），用于控制成本和限额。购买方面，我们保留你的次数余额和商店交易编号，确保每笔购买只到账一次。付款由 Apple 处理，并由 RevenueCat 帮我们核实（见下文），我们看不到你的支付信息。</li>
         <li><strong>客服邮件。</strong>如果你给我们发邮件，我们会收到你的邮箱地址和邮件内容，仅用于回复你。</li>
       </ol>
       <p>我们不收集你的位置、通讯录、广告标识符，也不会读取你选择的那个视频以外的任何照片或视频。</p>
@@ -116,6 +117,7 @@
         <li><strong>Supabase</strong>：我们的后端服务（数据库、文件存储和服务器函数），部署在新加坡。</li>
         <li><strong>OpenRouter</strong>（美国）：把你的视频转交给<strong>阿里云的通义千问</strong>模型进行分析。我们要求 OpenRouter 只使用不保存内容、不拿内容训练的服务商。它们也按各自的隐私政策处理数据。</li>
         <li><strong>Apple</strong>：处理 App 内购买。</li>
+        <li><strong>RevenueCat</strong>（美国）：向 Apple 核实每一笔 App 内购买，并通知我们的服务器给你加次数。它会收到随机设备 ID 和你的购买记录（买了哪个次数包、价格、币种、国家和商店交易编号），不会收到你的姓名或支付信息。它也按自身隐私政策处理数据。</li>
       </ul>
       <p>这些服务分布在不同国家和地区，因此你的数据可能在你所在国家以外处理，包括新加坡、美国和中国。我们只提供每项服务完成工作所必需的数据。</p>
 
@@ -125,7 +127,7 @@
         <tr><td>你的视频</td><td>分析完立即删除；没有被分析的上传约 1 小时内删除</td></tr>
         <tr><td>服务器上的拆解报告</td><td>保存到 App 取回为止，最多 24 小时</td></tr>
         <tr><td>使用记录</td><td>90 天</td></tr>
-        <tr><td>次数余额和购买记录</td><td>你还有次数期间，以及记账所需的期限</td></tr>
+        <tr><td>次数余额和购买记录</td><td>你还有次数期间，以及记账所需的期限。RevenueCat 按自身政策保存它那份购买记录</td></tr>
         <tr><td>客服邮件</td><td>处理你的问题所需的期限</td></tr>
       </table>
 
