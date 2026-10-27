@@ -39,6 +39,7 @@
       <ol>
         <li><strong>Anonymous identifiers.</strong> On first launch the app creates a random device ID, kept in your phone’s keychain, and an anonymous account on our backend. We use them to count your free and purchased breakdowns and to prevent abuse. They aren’t linked to your name or contact details. The app only shows a short “support code” made from the device ID.</li>
         <li><strong>Videos you choose.</strong> When you start a breakdown, the app uploads that one video (picture and sound) to our server, and our AI providers analyze it. We delete it from our storage as soon as the analysis ends, whether it succeeds or not. An upload that is never analyzed, for example because you closed the app, is deleted within about an hour. Please don’t upload videos showing sensitive personal information.</li>
+        <li><strong>Remake scripts.</strong> When you ask for a script for your own product, the breakdown and the product details you type are sent to our AI providers. The script is stored on our server until the app fetches it, 24 hours at most, and then only on your phone. Please don’t type personal information there.</li>
         <li><strong>Breakdown reports.</strong> A report, including the transcript of what is said in the video, is stored on our server until the app fetches it, and deleted after 24 hours at the latest. Your history of reports is saved only on your phone.</li>
         <li><strong>Usage and purchase records.</strong> For each breakdown we record when it ran, which AI model was used, whether it worked and how many tokens it used, with no content, to manage costs and limits. For purchases we keep your credit balance and the store transaction IDs, so credits are added exactly once. Payments are handled by Apple and verified for us by RevenueCat (see below); we never see your payment details.</li>
         <li><strong>Support emails.</strong> If you email us, we receive your email address and message and use them only to reply.</li>
@@ -106,6 +107,7 @@
       <ol>
         <li><strong>匿名标识。</strong>首次打开时，App 会生成一个随机的设备 ID（保存在手机钥匙串中），并在我们的后端创建一个匿名账号，用来计算你的免费次数和已购次数，并防止滥用。它们不与你的姓名或联系方式关联。App 里只显示由设备 ID 生成的简短“支持码”。</li>
         <li><strong>你选择的视频。</strong>开始拆解时，App 会把这一个视频（包括画面和声音）上传到我们的服务器，由我们的 AI 服务商进行分析。无论分析成功与否，分析结束后都会立即从存储中删除。上传后没有被分析的视频（例如中途关掉了 App）会在大约 1 小时内删除。请不要上传包含个人敏感信息的视频。</li>
+        <li><strong>翻拍脚本。</strong>你让 App 给自己的产品写脚本时，拆解报告和你输入的产品信息会发送给我们的 AI 服务商。脚本在服务器上保存到 App 取回为止，最多 24 小时，之后只保存在你的手机上。请不要在那里输入个人信息。</li>
         <li><strong>拆解报告。</strong>报告（包括视频里说的话的转写）在服务器上保存到 App 取回为止，最迟 24 小时后删除。你的拆解记录只保存在手机上。</li>
         <li><strong>使用和购买记录。</strong>每次拆解，我们会记录时间、使用的 AI 模型、是否成功和消耗的 token 数（不含任何内容），用于控制成本和限额。购买方面，我们保留你的次数余额和商店交易编号，确保每笔购买只到账一次。付款由 Apple 处理，并由 RevenueCat 帮我们核实（见下文），我们看不到你的支付信息。</li>
         <li><strong>客服邮件。</strong>如果你给我们发邮件，我们会收到你的邮箱地址和邮件内容，仅用于回复你。</li>
