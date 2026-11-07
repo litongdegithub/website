@@ -1,0 +1,23 @@
+/* Saybid's colours on top of the shared style.css: ink and safety yellow (docs/APP2-BRAND.md).
+   Yellow is never text on white, so in light mode the brand mark and links are ink and a dark gold. */
+:root {
+  --accent: #7a5a00;
+  --brand: #15171a;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --accent: #ffc400;
+    --brand: #ffc400;
+  }
+}
+
+.brand span {
+  box-shadow: inset 0 -0.35em 0 #ffc400;
+}
+
+@media (prefers-color-scheme: dark) {
+  .brand span {
+    box-shadow: none;
+  }
+}
