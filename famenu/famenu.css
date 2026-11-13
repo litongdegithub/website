@@ -1,0 +1,31 @@
+/* Famenu's colours on top of the shared style.css: Mediterranean cobalt on cream (docs/APP3-BRAND.md). */
+:root {
+  --bg: #faf6ee;
+  --surface: #f1eadc;
+  --text: #1b2433;
+  --muted: #5c6474;
+  --line: #e6dccb;
+  --accent: #1f4fa8;
+  --brand: #1f4fa8;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #10141c;
+    --surface: #1a2130;
+    --text: #f2efe8;
+    --muted: #a3aab8;
+    --line: #2a3242;
+    --accent: #8fb0ee;
+    --brand: #8fb0ee;
+  }
+}
+
+h1 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 600;
+}
+
+.brand {
+  font-family: Georgia, "Times New Roman", serif;
+}
