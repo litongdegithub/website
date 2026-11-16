@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Spoonkeep Privacy Policy</title>
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="spoonkeep.css">
+</head>
+<body>
+<div class="page">
+  <header>
+    <a class="brand" href="index.html">spoon<span>keep</span></a>
+    <nav>
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+      <a href="support.html">Support</a>
+    </nav>
+  </header>
+  <p class="lang">English · <a href="#es">Español</a> · <a href="#it">Italiano</a></p>
+
+  <main>
+    <section lang="en">
+      <h1>Privacy Policy</h1>
+      <p class="updated">Last updated: 16 November 2026</p>
+      <p>Spoonkeep (“Spoonkeep”, “we”, “us”) saves recipes from social media posts, web pages, screenshots and photos, word for word, and helps you plan meals, shop and cook. This policy explains what data the app handles, why, where it goes and how long we keep it.</p>
+
+      <div class="summary">
+        <h2>The short version</h2>
+        <ul>
+          <li>No sign-up. Your recipes, cookbooks, plans and shopping list stay on your phone.</li>
+          <li>When you use an AI import (a shared TikTok or Instagram post, a screenshot, a photo or pasted text), that content is read once to copy the recipe and is never stored on our servers.</li>
+          <li>A recipe read from a shared video waits on our server only until your phone collects it, at most a day.</li>
+          <li>We don’t sell your data, show ads or track you across other apps.</li>
+        </ul>
+      </div>
+
+      <h2>What we handle and why</h2>
+      <ol>
+        <li><strong>Your recipes, on your phone only.</strong> The recipes you keep, your cookbooks, notes, meal plans, cooking history and shopping list are stored on your phone. We don’t receive them.</li>
+        <li><strong>Web pages and typed recipes.</strong> When you save a recipe from a link, your phone opens that page itself and reads the recipe data the site publishes. Recipes you type in, and recipes imported from a Paprika export file, are handled entirely on your phone. None of this is sent to us.</li>
+        <li><strong>AI imports: screenshots, photos and pasted text.</strong> The first time you use one, the app asks for your permission. The images or text you choose are sent to our server, which passes them to the AI services listed below to read the text and write out the recipe. The answer comes straight back to your phone. Nothing you send is stored on our servers.</li>
+        <li><strong>AI imports: posts shared from TikTok or Instagram.</strong> When you share a post to Spoonkeep, your phone reads the post’s public page (its caption, author and cover picture) and starts a reading job on our server with the post’s address. Our server downloads the post’s public video, sends it with the caption to the AI services below, and deletes the video as soon as it has been read. The recipe that comes out waits on our server until your phone collects it; the job and its recipe are deleted within 24 hours. Only public posts can be read.</li>
+        <li><strong>Anonymous identifiers.</strong> On first launch the app creates a random device ID, kept in your phone’s secure storage (the Keychain on iPhone), and an anonymous account on our backend. For shared posts, the app also creates a random “share key” so the share sheet can start a reading job for your phone; our server keeps only a fingerprint (hash) of it. None of these are linked to your name or contact details. The app shows a short “support code” made from the device ID.</li>
+        <li><strong>Usage counts.</strong> To apply the free allowance and the fair-use limit, we keep a record of how many AI imports your device has made and when, with no content, for 90 days.</li>
+        <li><strong>Notifications.</strong> If you allow them, we send one notification when a recipe from a shared post is ready. For that, the app gives our server a push token for your phone, which we delete with your device record. Cooking timers are scheduled on your phone and don’t go through our server.</li>
+        <li><strong>Subscription records.</strong> We keep whether you subscribe to Spoonkeep Pro and until when. Payments are handled by Apple and verified for us by RevenueCat; we never see your payment details.</li>
+        <li><strong>Emails you choose to send.</strong> “Help &amp; feedback” opens your own email app. If you send a message, we receive your email address and message, and use them only to reply.</li>
+      </ol>
+      <p>We don’t collect your location, contacts, health data, advertising identifiers or how you use the app. Photos are only read when you pick them for an import. A recipe or shopping list you share goes from your phone through the app you choose; we don’t receive it.</p>
+
+      <h2>Who processes your data</h2>
+      <ul>
+        <li><strong>Supabase</strong> runs our backend (database and server functions), hosted in Singapore.</li>
+        <li><strong>OpenRouter</strong> (United States) routes AI requests to the services below. We only allow providers that don’t keep the content or use it for training.</li>
+        <li><strong>DeepInfra and Parasail</strong> (United States) read the text in screenshots and photos, and DeepInfra watches and listens to shared videos.</li>
+        <li><strong>Mistral AI</strong> (France) writes the recipe out from that text.</li>
+        <li><strong>Expo</strong> (United States) and <strong>Apple</strong> deliver the “recipe ready” notification.</li>
+        <li><strong>Apple</strong> handles subscriptions through the App Store.</li>
+        <li><strong>RevenueCat</strong> (United States) checks each subscription with Apple and tells our server whether you subscribe. It receives the random device ID and your purchase records (which plan, price, currency, country and the store transaction ID), never your name or payment details. Its own privacy policy also applies.</li>
+      </ul>
+      <p>These services operate in different countries, so your data may be processed outside the country you live in, including in Singapore, the United States and France. We share only what each service needs to do its job. We never use AI providers based in China.</p>
+
+      <h2>How long we keep data</h2>
+      <table>
+        <tr><th>Data</th><th>Kept</th></tr>
+        <tr><td>Your recipes, cookbooks, plans and lists</td><td>On your phone until you delete them or the app. Deleted recipes stay in Recently deleted for 30 days.</td></tr>
+        <tr><td>Screenshots, photos and text you import</td><td>Not stored: read once and discarded</td></tr>
+        <tr><td>Videos of shared posts</td><td>Not stored: deleted as soon as they have been read</td></tr>
+        <tr><td>A recipe read from a shared post</td><td>Until your phone collects it, at most 24 hours</td></tr>
+        <tr><td>Usage counts (no content)</td><td>90 days</td></tr>
+        <tr><td>Anonymous ID, share-key fingerprint, push token</td><td>Until you delete your data</td></tr>
+        <tr><td>Subscription status</td><td>While it applies, and as long as needed for accounting. RevenueCat keeps its copy of purchase records under its own policy.</td></tr>
+        <tr><td>Emails you send us</td><td>As long as needed to help you</td></tr>
+      </table>
+
+      <h2>Your choices and rights</h2>
+      <ul>
+        <li><strong>Delete your data:</strong> in the app, go to You → Settings &amp; privacy → Delete my data. This removes your recipes, cookbooks, plans and lists from your phone, and your anonymous account, device record, share key and push token from our server. Deleting the app also removes everything stored on your phone.</li>
+        <li><strong>Notifications:</strong> turn them off at any time in the app (You) or in your iPhone’s Settings.</li>
+        <li>You can ask us for a copy of your data, or ask us to correct or delete it, by emailing us with your support code (You → Settings &amp; privacy).</li>
+        <li>Depending on where you live (for example in the European Union or the United Kingdom), you also have the right to object to or restrict processing and to complain to your data protection authority.</li>
+      </ul>
+
+      <h2>Children</h2>
+      <p>Spoonkeep isn’t directed at children under 13, and we don’t knowingly collect their data.</p>
+
+      <h2>Security</h2>
+      <p>Data travels over encrypted connections, and access to our systems is restricted.</p>
+
+      <h2>Changes</h2>
+      <p>If we change this policy, we’ll update the date above. If we change which services receive what you import, the app will ask for your permission again.</p>
+
+      <h2>Contact</h2>
+      <p><a href="mailto:contact@litongintl.com">contact@litongintl.com</a></p>
+    </section>
+
+    <hr class="divider">
+
+    <section id="es" lang="es">
+      <h1>Política de privacidad</h1>
+      <p class="updated">Última actualización: 16 de noviembre de 2026</p>
+      <p>Spoonkeep (“Spoonkeep”, “nosotros”) guarda recetas de publicaciones en redes sociales, páginas web, capturas y fotos, palabra por palabra, y te ayuda a planificar comidas, hacer la compra y cocinar. Esta política explica qué datos maneja la app, para qué, a dónde van y cuánto tiempo los guardamos.</p>
+
+      <div class="summary">
+        <h2>En resumen</h2>
+        <ul>
+          <li>No hace falta registrarse. Tus recetas, recetarios, menús y lista de la compra se quedan en tu teléfono.</li>
+          <li>Cuando usas una importación con IA (una publicación compartida de TikTok o Instagram, una captura, una foto o un texto pegado), ese contenido se lee una vez para copiar la receta y nunca se guarda en nuestros servidores.</li>
+          <li>La receta leída de un vídeo compartido solo espera en nuestro servidor hasta que tu teléfono la recoge, como mucho un día.</li>
+          <li>No vendemos tus datos, no mostramos anuncios ni te rastreamos en otras apps.</li>
+        </ul>
+      </div>
+
+      <h2>Qué manejamos y para qué</h2>
+      <ol>
+        <li><strong>Tus recetas, solo en tu teléfono.</strong> Las recetas que guardas, tus recetarios, notas, menús, historial de cocina y lista de la compra se guardan en tu teléfono. No los recibimos.</li>
+        <li><strong>Páginas web y recetas escritas.</strong> Cuando guardas una receta desde un enlace, tu teléfono abre esa página y lee los datos de la receta que publica la web. Las recetas que escribes y las que importas desde un archivo de Paprika se manejan por completo en tu teléfono. Nada de esto nos llega.</li>
+        <li><strong>Importaciones con IA: capturas, fotos y texto pegado.</strong> La primera vez que usas una, la app te pide permiso. Las imágenes o el texto que eliges se envían a nuestro servidor, que los pasa a los servicios de IA indicados abajo para leer el texto y escribir la receta. La respuesta vuelve directamente a tu teléfono. Nada de lo que envías se guarda en nuestros servidores.</li>
+        <li><strong>Importaciones con IA: publicaciones compartidas de TikTok o Instagram.</strong> Cuando compartes una publicación con Spoonkeep, tu teléfono lee la página pública de la publicación (su descripción, su autor y su imagen de portada) e inicia una lectura en nuestro servidor con la dirección de la publicación. Nuestro servidor descarga el vídeo público, lo envía junto con la descripción a los servicios de IA indicados abajo y borra el vídeo en cuanto se ha leído. La receta resultante espera en nuestro servidor hasta que tu teléfono la recoge; la lectura y su receta se borran en un plazo de 24 horas. Solo se pueden leer publicaciones públicas.</li>
+        <li><strong>Identificadores anónimos.</strong> Al abrir la app por primera vez, se crea un ID de dispositivo aleatorio, guardado en el almacenamiento seguro del teléfono (el Llavero en iPhone), y una cuenta anónima en nuestro servidor. Para las publicaciones compartidas, la app crea además una “clave para compartir” aleatoria, con la que el menú de compartir puede iniciar una lectura para tu teléfono; nuestro servidor solo guarda una huella (hash) de ella. Nada de esto está vinculado a tu nombre ni a tus datos de contacto. La app muestra un “código de soporte” corto creado a partir del ID de dispositivo.</li>
+        <li><strong>Recuento de uso.</strong> Para aplicar las importaciones gratuitas y el límite de uso razonable, guardamos cuántas importaciones con IA ha hecho tu dispositivo y cuándo, sin ningún contenido, durante 90 días.</li>
+        <li><strong>Notificaciones.</strong> Si las permites, te enviamos una notificación cuando la receta de una publicación compartida está lista. Para ello, la app da a nuestro servidor un token de notificaciones de tu teléfono, que borramos junto con el registro del dispositivo. Los temporizadores de cocina se programan en tu teléfono y no pasan por nuestro servidor.</li>
+        <li><strong>Datos de suscripción.</strong> Guardamos si estás suscrito a Spoonkeep Pro y hasta cuándo. Los pagos los gestiona Apple y RevenueCat los verifica por nosotros; nunca vemos tus datos de pago.</li>
+        <li><strong>Correos que decides enviar.</strong> “Ayuda y sugerencias” abre tu propia app de correo. Si envías un mensaje, recibimos tu dirección de correo y el mensaje, y los usamos solo para responderte.</li>
+      </ol>
+      <p>No recogemos tu ubicación, contactos, datos de salud, identificadores publicitarios ni cómo usas la app. Las fotos solo se leen cuando las eliges para importar. Una receta o lista de la compra que compartes sale de tu teléfono por la app que eliges; no nos llega.</p>
+
+      <h2>Quién trata tus datos</h2>
+      <ul>
+        <li><strong>Supabase</strong> aloja nuestro servidor (base de datos y funciones), en Singapur.</li>
+        <li><strong>OpenRouter</strong> (Estados Unidos) dirige las peticiones de IA a los servicios siguientes. Solo permitimos proveedores que no guardan el contenido ni lo usan para entrenar.</li>
+        <li><strong>DeepInfra y Parasail</strong> (Estados Unidos) leen el texto de las capturas y fotos, y DeepInfra ve y escucha los vídeos compartidos.</li>
+        <li><strong>Mistral AI</strong> (Francia) escribe la receta a partir de ese texto.</li>
+        <li><strong>Expo</strong> (Estados Unidos) y <strong>Apple</strong> entregan la notificación de “receta lista”.</li>
+        <li><strong>Apple</strong> gestiona las suscripciones a través de la App Store.</li>
+        <li><strong>RevenueCat</strong> (Estados Unidos) comprueba cada suscripción con Apple e informa a nuestro servidor de si estás suscrito. Recibe el ID de dispositivo aleatorio y tus registros de compra (qué plan, precio, moneda, país y el ID de transacción de la tienda), nunca tu nombre ni tus datos de pago. También se aplica su propia política de privacidad.</li>
+      </ul>
+      <p>Estos servicios operan en distintos países, por lo que tus datos pueden tratarse fuera de tu país, incluidos Singapur, Estados Unidos y Francia. Solo compartimos lo que cada servicio necesita para hacer su trabajo. Nunca usamos proveedores de IA con sede en China.</p>
+
+      <h2>Cuánto tiempo guardamos los datos</h2>
+      <table>
+        <tr><th>Datos</th><th>Se guardan</th></tr>
+        <tr><td>Tus recetas, recetarios, menús y listas</td><td>En tu teléfono hasta que los borres o borres la app. Las recetas eliminadas quedan 30 días en Eliminadas recientemente.</td></tr>
+        <tr><td>Capturas, fotos y texto que importas</td><td>No se guardan: se leen una vez y se descartan</td></tr>
+        <tr><td>Vídeos de publicaciones compartidas</td><td>No se guardan: se borran en cuanto se han leído</td></tr>
+        <tr><td>La receta leída de una publicación compartida</td><td>Hasta que tu teléfono la recoge, como mucho 24 horas</td></tr>
+        <tr><td>Recuento de uso (sin contenido)</td><td>90 días</td></tr>
+        <tr><td>ID anónimo, huella de la clave para compartir, token de notificaciones</td><td>Hasta que borres tus datos</td></tr>
+        <tr><td>Estado de la suscripción</td><td>Mientras esté vigente y el tiempo necesario para la contabilidad. RevenueCat guarda su copia de los registros de compra según su propia política.</td></tr>
+        <tr><td>Correos que nos envías</td><td>El tiempo necesario para ayudarte</td></tr>
+      </table>
+
+      <h2>Tus opciones y derechos</h2>
+      <ul>
+        <li><strong>Borrar tus datos:</strong> en la app, ve a Tú → Ajustes y privacidad → Borrar mis datos. Esto elimina tus recetas, recetarios, menús y listas del teléfono, y tu cuenta anónima, el registro del dispositivo, la clave para compartir y el token de notificaciones de nuestro servidor. Borrar la app también elimina todo lo guardado en el teléfono.</li>
+        <li><strong>Notificaciones:</strong> puedes desactivarlas cuando quieras en la app (Tú) o en los Ajustes del iPhone.</li>
+        <li>Puedes pedirnos una copia de tus datos, o que los corrijamos o borremos, escribiéndonos con tu código de soporte (Tú → Ajustes y privacidad).</li>
+        <li>Según dónde vivas (por ejemplo en la Unión Europea o el Reino Unido), también tienes derecho a oponerte al tratamiento o limitarlo y a reclamar ante tu autoridad de protección de datos.</li>
+      </ul>
+
+      <h2>Menores</h2>
+      <p>Spoonkeep no está dirigida a menores de 13 años y no recogemos sus datos a sabiendas.</p>
+
+      <h2>Seguridad</h2>
+      <p>Los datos viajan por conexiones cifradas y el acceso a nuestros sistemas está restringido.</p>
+
+      <h2>Cambios</h2>
+      <p>Si cambiamos esta política, actualizaremos la fecha de arriba. Si cambiamos qué servicios reciben lo que importas, la app te volverá a pedir permiso.</p>
+
+      <h2>Contacto</h2>
+      <p><a href="mailto:contact@litongintl.com">contact@litongintl.com</a></p>
+    </section>
+
+    <hr class="divider">
+
+    <section id="it" lang="it">
+      <h1>Informativa sulla privacy</h1>
+      <p class="updated">Ultimo aggiornamento: 16 novembre 2026</p>
+      <p>Spoonkeep (“Spoonkeep”, “noi”) salva ricette da post sui social, pagine web, screenshot e foto, parola per parola, e ti aiuta a pianificare i pasti, fare la spesa e cucinare. Questa informativa spiega quali dati gestisce l’app, perché, dove vanno e per quanto tempo li conserviamo.</p>
+
+      <div class="summary">
+        <h2>In breve</h2>
+        <ul>
+          <li>Nessuna registrazione. Le tue ricette, i ricettari, i menu e la lista della spesa restano sul tuo telefono.</li>
+          <li>Quando usi un’importazione con IA (un post condiviso da TikTok o Instagram, uno screenshot, una foto o un testo incollato), quel contenuto viene letto una volta per copiare la ricetta e non viene mai conservato sui nostri server.</li>
+          <li>La ricetta letta da un video condiviso resta sul nostro server solo finché il telefono non la ritira, al massimo un giorno.</li>
+          <li>Non vendiamo i tuoi dati, non mostriamo pubblicità e non ti tracciamo in altre app.</li>
+        </ul>
+      </div>
+
+      <h2>Cosa gestiamo e perché</h2>
+      <ol>
+        <li><strong>Le tue ricette, solo sul telefono.</strong> Le ricette che salvi, i ricettari, le note, i menu, la cronologia di cucina e la lista della spesa sono conservati sul tuo telefono. Non li riceviamo.</li>
+        <li><strong>Pagine web e ricette scritte.</strong> Quando salvi una ricetta da un link, il telefono apre la pagina e legge i dati della ricetta pubblicati dal sito. Le ricette che scrivi e quelle importate da un file di esportazione di Paprika sono gestite interamente sul telefono. Niente di tutto questo arriva a noi.</li>
+        <li><strong>Importazioni con IA: screenshot, foto e testo incollato.</strong> La prima volta che ne usi una, l’app ti chiede il permesso. Le immagini o il testo che scegli vengono inviati al nostro server, che li passa ai servizi di IA indicati sotto per leggere il testo e scrivere la ricetta. La risposta torna direttamente al telefono. Niente di ciò che invii viene conservato sui nostri server.</li>
+        <li><strong>Importazioni con IA: post condivisi da TikTok o Instagram.</strong> Quando condividi un post con Spoonkeep, il telefono legge la pagina pubblica del post (didascalia, autore e immagine di copertina) e avvia una lettura sul nostro server con l’indirizzo del post. Il server scarica il video pubblico, lo invia con la didascalia ai servizi di IA indicati sotto e cancella il video appena è stato letto. La ricetta ottenuta resta sul server finché il telefono non la ritira; la lettura e la sua ricetta vengono cancellate entro 24 ore. Si possono leggere solo post pubblici.</li>
+        <li><strong>Identificatori anonimi.</strong> Al primo avvio l’app crea un ID dispositivo casuale, conservato nella memoria sicura del telefono (il Portachiavi su iPhone), e un account anonimo sul nostro server. Per i post condivisi, l’app crea anche una “chiave di condivisione” casuale, con cui il menu di condivisione può avviare una lettura per il tuo telefono; il server ne conserva solo un’impronta (hash). Niente di questo è collegato al tuo nome o ai tuoi contatti. L’app mostra un breve “codice assistenza” ricavato dall’ID dispositivo.</li>
+        <li><strong>Conteggio d’uso.</strong> Per applicare le importazioni gratuite e il limite di uso ragionevole, conserviamo quante importazioni con IA ha fatto il tuo dispositivo e quando, senza alcun contenuto, per 90 giorni.</li>
+        <li><strong>Notifiche.</strong> Se le consenti, ti inviamo una notifica quando la ricetta di un post condiviso è pronta. Per questo l’app dà al nostro server un token di notifica del telefono, che cancelliamo insieme al record del dispositivo. I timer di cucina sono programmati sul telefono e non passano dal nostro server.</li>
+        <li><strong>Dati dell’abbonamento.</strong> Conserviamo se sei abbonato a Spoonkeep Pro e fino a quando. I pagamenti sono gestiti da Apple e verificati per noi da RevenueCat; non vediamo mai i tuoi dati di pagamento.</li>
+        <li><strong>Email che scegli di inviare.</strong> “Aiuto e feedback” apre la tua app di posta. Se invii un messaggio, riceviamo il tuo indirizzo email e il messaggio, e li usiamo solo per risponderti.</li>
+      </ol>
+      <p>Non raccogliamo la tua posizione, i contatti, dati sanitari, identificatori pubblicitari né come usi l’app. Le foto vengono lette solo quando le scegli per un’importazione. Una ricetta o una lista della spesa che condividi parte dal telefono attraverso l’app che scegli; non arriva a noi.</p>
+
+      <h2>Chi tratta i tuoi dati</h2>
+      <ul>
+        <li><strong>Supabase</strong> gestisce il nostro server (database e funzioni), ospitato a Singapore.</li>
+        <li><strong>OpenRouter</strong> (Stati Uniti) indirizza le richieste di IA ai servizi seguenti. Consentiamo solo fornitori che non conservano i contenuti né li usano per l’addestramento.</li>
+        <li><strong>DeepInfra e Parasail</strong> (Stati Uniti) leggono il testo di screenshot e foto, e DeepInfra guarda e ascolta i video condivisi.</li>
+        <li><strong>Mistral AI</strong> (Francia) scrive la ricetta a partire da quel testo.</li>
+        <li><strong>Expo</strong> (Stati Uniti) e <strong>Apple</strong> consegnano la notifica “ricetta pronta”.</li>
+        <li><strong>Apple</strong> gestisce gli abbonamenti tramite l’App Store.</li>
+        <li><strong>RevenueCat</strong> (Stati Uniti) verifica ogni abbonamento con Apple e comunica al nostro server se sei abbonato. Riceve l’ID dispositivo casuale e i dati dei tuoi acquisti (piano, prezzo, valuta, paese e ID della transazione), mai il tuo nome o i dati di pagamento. Si applica anche la sua informativa sulla privacy.</li>
+      </ul>
+      <p>Questi servizi operano in paesi diversi, quindi i tuoi dati possono essere trattati fuori dal tuo paese, anche a Singapore, negli Stati Uniti e in Francia. Condividiamo solo ciò che serve a ciascun servizio. Non usiamo mai fornitori di IA con sede in Cina.</p>
+
+      <h2>Per quanto tempo conserviamo i dati</h2>
+      <table>
+        <tr><th>Dati</th><th>Conservati</th></tr>
+        <tr><td>Ricette, ricettari, menu e liste</td><td>Sul telefono finché non li cancelli o cancelli l’app. Le ricette eliminate restano 30 giorni in Eliminate di recente.</td></tr>
+        <tr><td>Screenshot, foto e testo che importi</td><td>Non conservati: letti una volta e scartati</td></tr>
+        <tr><td>Video dei post condivisi</td><td>Non conservati: cancellati appena letti</td></tr>
+        <tr><td>La ricetta letta da un post condiviso</td><td>Finché il telefono non la ritira, al massimo 24 ore</td></tr>
+        <tr><td>Conteggio d’uso (senza contenuti)</td><td>90 giorni</td></tr>
+        <tr><td>ID anonimo, impronta della chiave di condivisione, token di notifica</td><td>Finché non cancelli i tuoi dati</td></tr>
+        <tr><td>Stato dell’abbonamento</td><td>Finché è valido e per il tempo necessario alla contabilità. RevenueCat conserva la sua copia dei dati di acquisto secondo la propria informativa.</td></tr>
+        <tr><td>Email che ci invii</td><td>Il tempo necessario per aiutarti</td></tr>
+      </table>
+
+      <h2>Le tue scelte e i tuoi diritti</h2>
+      <ul>
+        <li><strong>Cancellare i tuoi dati:</strong> nell’app, vai su Tu → Impostazioni e privacy → Elimina i miei dati. Così rimuovi ricette, ricettari, menu e liste dal telefono, e l’account anonimo, il record del dispositivo, la chiave di condivisione e il token di notifica dal nostro server. Cancellare l’app rimuove anche tutto ciò che è conservato sul telefono.</li>
+        <li><strong>Notifiche:</strong> puoi disattivarle quando vuoi nell’app (Tu) o nelle Impostazioni dell’iPhone.</li>
+        <li>Puoi chiederci una copia dei tuoi dati, o di correggerli o cancellarli, scrivendoci con il tuo codice assistenza (Tu → Impostazioni e privacy).</li>
+        <li>A seconda di dove vivi (ad esempio nell’Unione europea o nel Regno Unito), hai anche il diritto di opporti al trattamento o di limitarlo e di presentare reclamo all’autorità per la protezione dei dati.</li>
+      </ul>
+
+      <h2>Minori</h2>
+      <p>Spoonkeep non è rivolta ai minori di 13 anni e non raccogliamo consapevolmente i loro dati.</p>
+
+      <h2>Sicurezza</h2>
+      <p>I dati viaggiano su connessioni cifrate e l’accesso ai nostri sistemi è limitato.</p>
+
+      <h2>Modifiche</h2>
+      <p>Se modifichiamo questa informativa, aggiorneremo la data qui sopra. Se cambiamo i servizi che ricevono ciò che importi, l’app ti chiederà di nuovo il permesso.</p>
+
+      <h2>Contatti</h2>
+      <p><a href="mailto:contact@litongintl.com">contact@litongintl.com</a></p>
+    </section>
+  </main>
+
+  <footer>© 2026 Spoonkeep · <a href="index.html">Home</a></footer>
+</div>
+</body>
+</html>
