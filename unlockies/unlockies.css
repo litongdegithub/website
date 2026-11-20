@@ -1,0 +1,34 @@
+/* Unlockies' colours on top of the shared style.css: warm cream and coral (docs/APP5-PLAN.md). */
+:root {
+  --bg: #fff6e8;
+  --surface: #f3e6d2;
+  --text: #2b211c;
+  --muted: #7a6a5f;
+  --line: #eadcc8;
+  --accent: #c2441f;
+  --brand: #c2441f;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1a1411;
+    --surface: #261d18;
+    --text: #fff6e8;
+    --muted: #b9a896;
+    --line: #3a2e27;
+    --accent: #ff8a60;
+    --brand: #ff8a60;
+  }
+}
+
+/* Rounded and friendly, like the buddies. No web font is loaded: Apple devices use SF Pro Rounded. */
+h1,
+.brand {
+  font-family: "Fredoka", ui-rounded, "SF Pro Rounded", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.brand {
+  font-size: 22px;
+}
