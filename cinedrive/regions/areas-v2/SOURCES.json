@@ -1,0 +1,76 @@
+{
+ "via": "geoBoundaries (www.geoboundaries.org), gbOpen",
+ "countries": {
+  "AU": {
+   "level": "ADM2",
+   "license": "Creative Commons Attribution 4.0 International (CC BY 4.0)",
+   "source": "Australian Bureau of Statistics",
+   "year": "2022",
+   "units": 547
+  },
+  "CA": {
+   "level": "ADM2",
+   "license": "Open Government Canada 2.0",
+   "source": "Statistics Canada (StatCan)",
+   "year": "2022",
+   "units": 76
+  },
+  "CN": {
+   "level": "ADM2",
+   "license": "Creative Commons Attribution 3.0 Intergovernmental Organisations (CC BY 3.0 IGO)",
+   "source": "publicly available online sources, HDX (OCHA), via geoBoundaries gbHumanitarian",
+   "year": "2020",
+   "units": 361,
+   "via": "geoBoundaries gbHumanitarian"
+  },
+  "DE": {
+   "level": "ADM3",
+   "license": "Data license Germany - Attribution - Version 2.0",
+   "source": "Federal Agency for Cartography and Geodesy",
+   "year": "2021",
+   "units": 428
+  },
+  "ES": {
+   "level": "ADM2",
+   "license": "National Institute of Statistics (INE) Data License",
+   "source": "El Instituto Nacional de Estadstica",
+   "year": "2018",
+   "units": 52
+  },
+  "FR": {
+   "level": "ADM2",
+   "license": "Etalab Open License 2.0",
+   "source": "Institut national de l'information géographique et forestière (IGN-F)",
+   "year": "2022",
+   "units": 96
+  },
+  "GB": {
+   "level": "ADM2",
+   "license": "Open Government Licence v3.0",
+   "source": "Office for National Statistics Open Geography Portal",
+   "year": "2019",
+   "units": 216
+  },
+  "IT": {
+   "level": "ADM3",
+   "license": "Creative Commons Attribution 3.0 License",
+   "source": "ISTAT, National Institute of Statistics",
+   "year": "2023",
+   "units": 107
+  },
+  "NL": {
+   "level": "ADM2",
+   "license": "CC0 1.0 Universal (CC0 1.0) Public Domain Dedication",
+   "source": "National Georegister",
+   "year": "2022",
+   "units": 344
+  },
+  "US": {
+   "level": "ADM2",
+   "license": "Public Domain",
+   "source": "United States Census Bureau, MAF/TIGER Database",
+   "year": "2018",
+   "units": 3233
+  }
+ }
+}

@@ -24,7 +24,7 @@
   <main>
     <section lang="en">
       <h1>Privacy Policy</h1>
-      <p class="updated">Last updated: 20 November 2026</p>
+      <p class="updated">Last updated: 24 November 2026</p>
       <p>CineDrive (“CineDrive”, “we”, “us”) records your drives and turns each one into a short film. An app like this knows where you go, so this policy explains exactly what it handles, why, where it goes and how long it is kept.</p>
 
       <div class="summary">
@@ -32,7 +32,7 @@
         <ul>
           <li>No sign-up. Your drives (where you went, when and how far) are stored only on your phone and are never uploaded to our server.</li>
           <li>Films are made on your phone. Your photos and the picture of your car are read on your phone and never uploaded.</li>
-          <li>Maps and place names come from Apple: your phone asks Apple’s map services directly, under Apple’s privacy policy.</li>
+          <li>Maps and place names come from Apple: your phone asks Apple’s map services directly, under Apple’s privacy policy. The far-out footprint map’s pictures and outlines are plain files from our website, and place photos come from Wikivoyage; neither is sent anything about you.</li>
           <li>Our server only knows an anonymous ID for your phone and whether you subscribe.</li>
           <li>CineDrive doesn’t use AI. We don’t sell your data, show ads, use analytics or track you across other apps.</li>
         </ul>
@@ -41,9 +41,11 @@
       <h2>What we handle and why</h2>
       <ol>
         <li><strong>Your location and drives, on your phone only.</strong> With Location set to “Always” and Motion &amp; Fitness allowed, CineDrive notices when you start and stop driving. While you aren’t driving, GPS is off and iOS only watches an area of about 150 m around where you parked, which uses little power; precise GPS runs only during a drive. Each drive (its GPS points with their times, the distance, how long it took, and where it started and ended) is saved in the app’s own database on your phone. We don’t receive it. If you don’t allow “Always”, you can start drives by hand instead.</li>
-        <li><strong>Maps and place names, from Apple.</strong> To give a drive and your map a place name, such as a town, the app uses Apple’s geocoder. To draw the maps in the app and in your films, it uses Apple Maps (MapKit). For this, your phone sends the coordinates or the map area involved to Apple, which handles them under Apple’s own privacy policy. They don’t go through our server. CineDrive uses no other map provider.</li>
+        <li><strong>Maps and place names, from Apple.</strong> To give a drive and your map a place name, such as a town, the app uses Apple’s geocoder. To draw the maps in the app and in your films, it uses Apple Maps (MapKit). For this, your phone sends the coordinates or the map area involved to Apple, which handles them under Apple’s own privacy policy. They don’t go through our server.</li>
+        <li><strong>Footprint map files, from our website.</strong> The far-out view of the footprint maps (the picture of the Earth, country and state outlines, place names, rivers) is made of plain files the app downloads from our website, litongintl.com, and keeps on your phone. The request contains no information about you or your drives, only which file is needed (for example, the outlines of one country); as with any website, our web host sees your IP address.</li>
+        <li><strong>Place photos, from Wikivoyage.</strong> For each state or region you have driven in, and haven’t given your own photo, the app asks Wikivoyage (run by the Wikimedia Foundation) for a photo of it, sending only the region’s English name, and keeps the answer on your phone. Wikimedia sees your IP address and handles it under its own privacy policy. Your own photos are never sent.</li>
         <li><strong>Your films.</strong> Each film is made on your phone from the drive, the map and, if you choose, your photos and your car. It is kept in the app’s cache on your phone. A film you save to Photos or share goes only where you send it; we don’t receive it. Free films carry a small “CineDrive” watermark.</li>
-        <li><strong>Photos and your car.</strong> If you allow access to Photos, the app looks only at photos taken between a drive’s start and end, and can place up to two of them on the route in that drive’s film. For the garage, you take or pick one photo of your car; the car is cut out on your phone with Apple’s Vision framework and saved as an image inside the app. Nothing is uploaded.</li>
+        <li><strong>Photos and your car.</strong> If you allow access to Photos, the app looks only at photos taken between a drive’s start and end, and can place up to six of them on the route in that drive’s film. For the garage, you take or pick one photo of your car; the car is cut out on your phone with Apple’s Vision framework and saved as an image inside the app. Nothing is uploaded.</li>
         <li><strong>What the app remembers for you.</strong> When you tap “I was a passenger”, the drive is deleted and its start and end points are kept on your phone, so the same trip is skipped next time. Drives that look like a train or a plane are flagged for you to decide. Your progress on legendary roads is worked out on your phone from your drives. All of this stays on your phone.</li>
         <li><strong>Notifications, widget and Live Activity.</strong> If you allow notifications, “Drive saved” is sent by the app on your phone; there is no push server. The Home Screen widget with this week’s drives, and the Live Activity on the Lock Screen and in the Dynamic Island for drives you start by hand, are drawn on your phone.</li>
         <li><strong>Anonymous identifiers.</strong> On first launch the app creates a random device ID, kept in your phone’s secure storage (the Keychain), and an anonymous account on our backend. When the app opens it checks in with our server to load its settings and to know whether you subscribe. The server keeps the device ID, the anonymous account, when the phone last checked in, and your subscription status. They aren’t linked to your name or contact details, and they contain no location. The app shows a short “support code” made from the device ID.</li>
@@ -55,6 +57,7 @@
       <h2>Who processes your data</h2>
       <ul>
         <li><strong>Apple</strong> provides the map services described above (Apple Maps and its geocoder), handles subscriptions through the App Store, and keeps your device backup if you use iCloud Backup. Apple’s privacy policy applies.</li>
+        <li><strong>The Wikimedia Foundation</strong> (United States) runs Wikivoyage, which the app asks for place photos as described above. Its privacy policy applies.</li>
         <li><strong>Supabase</strong> runs our backend (database and server functions), hosted in Singapore. It holds only the anonymous records described above, never your drives.</li>
         <li><strong>RevenueCat</strong> (United States) checks each subscription with Apple and tells our server whether you subscribe. It receives the random device ID and your purchase records (which plan, price, currency, country and the store transaction ID), never your name, location or payment details. Its own privacy policy also applies.</li>
       </ul>
@@ -63,8 +66,8 @@
       <h2>How long we keep data</h2>
       <table>
         <tr><th>Data</th><th>Kept</th></tr>
-        <tr><td>Your drives, cars and remembered passenger trips</td><td>On your phone until you delete them, use “Delete all drives, cars and films”, or delete the app</td></tr>
-        <tr><td>Films</td><td>In the app’s cache on your phone, until you delete that drive, iOS clears the cache to free up space, you use “Delete all drives, cars and films”, or you delete the app. A cleared film is made again the next time you watch it. Copies you saved to Photos or shared are yours.</td></tr>
+        <tr><td>Your drives, cars and remembered passenger trips</td><td>On your phone until you delete them, use “Delete all data”, or delete the app</td></tr>
+        <tr><td>Films</td><td>In the app’s cache on your phone, until you delete that drive, iOS clears the cache to free up space, you use “Delete all data”, or you delete the app. A cleared film is made again the next time you watch it. Copies you saved to Photos or shared are yours.</td></tr>
         <tr><td>Anonymous ID and last check-in</td><td>Until you delete your data</td></tr>
         <tr><td>Subscription status</td><td>While it applies, and as long as needed for accounting. RevenueCat keeps its copy of purchase records under its own policy.</td></tr>
         <tr><td>Emails you send us</td><td>As long as needed to help you</td></tr>
@@ -74,8 +77,8 @@
       <ul>
         <li><strong>Permissions:</strong> you can change Location, Motion &amp; Fitness, Photos, Camera and Notifications at any time in your iPhone’s Settings → CineDrive. To stop automatic recording without changing permissions, turn off Record drives automatically in Garage → Settings.</li>
         <li><strong>Take your drives with you:</strong> Garage → Settings → Export all drives (GPX) makes one GPX file with every drive, for you to save or share.</li>
-        <li><strong>Delete what is on your phone:</strong> open a drive to delete just that one, or use Garage → Settings → Delete all drives, cars and films to delete every drive, car, film and setting CineDrive keeps on your phone. This can’t be undone. Deleting the app also removes everything stored on your phone.</li>
-        <li><strong>Delete what is on our server:</strong> Garage → Settings → Delete my data removes your anonymous account and device record from our server.</li>
+        <li><strong>Delete a drive:</strong> open it and delete just that one.</li>
+        <li><strong>Delete everything:</strong> Garage → Settings → Delete all data deletes every drive, car, film and setting CineDrive keeps on your phone, and your anonymous account and device record on our server. This can’t be undone. Deleting the app also removes everything stored on your phone.</li>
         <li>You can ask us for a copy of your data, or ask us to correct or delete it, by emailing us with your support code.</li>
         <li>Depending on where you live (for example in the European Union or the United Kingdom), you also have the right to object to or restrict processing and to complain to your data protection authority.</li>
       </ul>
@@ -97,7 +100,7 @@
 
     <section id="es" lang="es">
       <h1>Política de privacidad</h1>
-      <p class="updated">Última actualización: 20 de noviembre de 2026</p>
+      <p class="updated">Última actualización: 22 de noviembre de 2026</p>
       <p>CineDrive (“CineDrive”, “nosotros”) graba tus trayectos en coche y convierte cada uno en una película corta. Una app así sabe por dónde vas, así que esta política explica con detalle qué datos maneja, para qué, a dónde van y cuánto tiempo se guardan.</p>
 
       <div class="summary">
@@ -105,7 +108,7 @@
         <ul>
           <li>No hace falta registrarse. Tus trayectos (por dónde fuiste, cuándo y cuántos kilómetros) se guardan solo en tu teléfono y nunca se suben a nuestro servidor.</li>
           <li>Las películas se hacen en tu teléfono. Tus fotos y la imagen de tu coche se leen en el teléfono y nunca se suben.</li>
-          <li>Los mapas y los nombres de lugares son de Apple: tu teléfono consulta directamente los servicios de mapas de Apple, según la política de privacidad de Apple.</li>
+          <li>Los mapas y los nombres de lugares son de Apple: tu teléfono consulta directamente los servicios de mapas de Apple, según la política de privacidad de Apple. Las imágenes y los contornos del mapa de huellas a gran escala son archivos de nuestra web, y las fotos de lugares vienen de Wikivoyage; a ninguno se le envía nada sobre ti.</li>
           <li>Nuestro servidor solo conoce un ID anónimo de tu teléfono y si tienes suscripción.</li>
           <li>CineDrive no usa IA. No vendemos tus datos, no mostramos anuncios, no usamos herramientas de analítica ni te rastreamos en otras apps.</li>
         </ul>
@@ -114,9 +117,11 @@
       <h2>Qué datos manejamos y para qué</h2>
       <ol>
         <li><strong>Tu ubicación y tus trayectos, solo en tu teléfono.</strong> Con la ubicación en “Siempre” y el permiso de Movimiento y forma física, CineDrive nota cuándo empiezas y terminas de conducir. Mientras no conduces, el GPS está apagado y iOS solo vigila una zona de unos 150 m alrededor de donde aparcaste, lo que gasta muy poca batería; el GPS preciso solo funciona durante un trayecto. Cada trayecto (sus puntos GPS con la hora, la distancia, la duración y los lugares de salida y llegada) se guarda en la base de datos de la propia app, en tu teléfono. No lo recibimos. Si no permites “Siempre”, puedes empezar los trayectos a mano.</li>
-        <li><strong>Mapas y nombres de lugares, de Apple.</strong> Para poner nombre de lugar (por ejemplo, un pueblo) a un trayecto y a tu mapa, la app usa el geocodificador de Apple. Para dibujar los mapas de la app y de tus películas, usa los mapas de Apple (MapKit). Para ello, tu teléfono envía a Apple las coordenadas o la zona del mapa necesarias, y Apple las trata según su propia política de privacidad. No pasan por nuestro servidor. CineDrive no usa ningún otro proveedor de mapas.</li>
+        <li><strong>Mapas y nombres de lugares, de Apple.</strong> Para poner nombre de lugar (por ejemplo, un pueblo) a un trayecto y a tu mapa, la app usa el geocodificador de Apple. Para dibujar los mapas de la app y de tus películas, usa los mapas de Apple (MapKit). Para ello, tu teléfono envía a Apple las coordenadas o la zona del mapa necesarias, y Apple las trata según su propia política de privacidad. No pasan por nuestro servidor.</li>
+        <li><strong>Archivos del mapa de huellas, de nuestra web.</strong> La vista lejana de los mapas de huellas (la imagen de la Tierra, los contornos de países y regiones, los nombres y los ríos) se compone de archivos que la app descarga de nuestra web, litongintl.com, y guarda en tu teléfono. La petición no contiene información sobre ti ni sobre tus trayectos, solo qué archivo hace falta; como en cualquier web, nuestro proveedor de alojamiento ve tu dirección IP.</li>
+        <li><strong>Fotos de lugares, de Wikivoyage.</strong> Para cada región por la que has conducido y a la que no has puesto una foto tuya, la app pide a Wikivoyage (de la Fundación Wikimedia) una foto, enviando solo el nombre de la región en inglés, y guarda la respuesta en tu teléfono. Wikimedia ve tu dirección IP y la trata según su propia política de privacidad. Tus fotos nunca se envían.</li>
         <li><strong>Tus películas.</strong> Cada película se hace en tu teléfono con el trayecto, el mapa y, si quieres, tus fotos y tu coche. Se guarda en la caché de la app, en tu teléfono. Una película que guardas en Fotos o compartes va solo a donde tú la mandas; no la recibimos. Las películas gratuitas llevan una pequeña marca de agua “CineDrive”.</li>
-        <li><strong>Fotos y tu coche.</strong> Si permites el acceso a Fotos, la app solo mira las fotos hechas entre el inicio y el final de un trayecto, y puede colocar hasta dos en la ruta de la película de ese trayecto. Para el garaje, haces o eliges una foto de tu coche; el coche se recorta en tu teléfono con Vision, la tecnología de Apple, y se guarda como imagen dentro de la app. No se sube nada.</li>
+        <li><strong>Fotos y tu coche.</strong> Si permites el acceso a Fotos, la app solo mira las fotos hechas entre el inicio y el final de un trayecto, y puede colocar hasta seis en la ruta de la película de ese trayecto. Para el garaje, haces o eliges una foto de tu coche; el coche se recorta en tu teléfono con Vision, la tecnología de Apple, y se guarda como imagen dentro de la app. No se sube nada.</li>
         <li><strong>Lo que la app recuerda por ti.</strong> Cuando tocas “Iba de pasajero”, el trayecto se elimina y sus puntos de salida y llegada se guardan en tu teléfono, para saltarse ese mismo viaje la próxima vez. Los trayectos que parecen de tren o de avión se marcan para que decidas tú. Tu avance en las carreteras legendarias se calcula en tu teléfono a partir de tus trayectos. Todo esto se queda en tu teléfono.</li>
         <li><strong>Notificaciones, widget y Actividad en directo.</strong> Si permites las notificaciones, el aviso “Trayecto guardado” lo envía la propia app desde tu teléfono; no hay servidor de notificaciones push. El widget de la pantalla de inicio con los trayectos de esta semana, y la Actividad en directo en la pantalla de bloqueo y en la Dynamic Island para los trayectos que empiezas a mano, se generan en tu teléfono.</li>
         <li><strong>Identificadores anónimos.</strong> Al abrir la app por primera vez se crea un ID de dispositivo aleatorio, guardado en el almacenamiento seguro del teléfono (el Llavero), y una cuenta anónima en nuestro servidor. Al abrirse, la app consulta nuestro servidor para cargar sus ajustes y saber si tienes suscripción. El servidor guarda el ID del dispositivo, la cuenta anónima, la última vez que el teléfono se conectó y el estado de tu suscripción. No están vinculados a tu nombre ni a tus datos de contacto, y no incluyen ninguna ubicación. La app muestra un “código de soporte” corto derivado del ID.</li>
@@ -127,6 +132,7 @@
 
       <h2>Quién trata tus datos</h2>
       <ul>
+        <li><strong>La Fundación Wikimedia</strong> (Estados Unidos) gestiona Wikivoyage, a la que la app pide fotos de lugares como se describe arriba. Se aplica su política de privacidad.</li>
         <li><strong>Apple</strong> presta los servicios de mapas descritos arriba (los mapas de Apple y su geocodificador), gestiona las suscripciones a través del App Store y guarda la copia de seguridad del dispositivo si usas la copia en iCloud. Se aplica la política de privacidad de Apple.</li>
         <li><strong>Supabase</strong> gestiona nuestro servidor (base de datos y funciones), alojado en Singapur. Solo guarda los registros anónimos descritos arriba, nunca tus trayectos.</li>
         <li><strong>RevenueCat</strong> (Estados Unidos) comprueba cada suscripción con Apple e informa a nuestro servidor de si estás suscrito. Recibe el ID aleatorio del dispositivo y tus registros de compra (qué plan, precio, moneda, país y el ID de transacción de la tienda), nunca tu nombre, tu ubicación ni tus datos de pago. También se aplica su propia política de privacidad.</li>
@@ -136,8 +142,8 @@
       <h2>Cuánto tiempo guardamos los datos</h2>
       <table>
         <tr><th>Datos</th><th>Se guardan</th></tr>
-        <tr><td>Tus trayectos, coches y viajes de pasajero recordados</td><td>En tu teléfono hasta que los borres, uses “Eliminar trayectos, coches y películas” o borres la app</td></tr>
-        <tr><td>Películas</td><td>En la caché de la app, en tu teléfono, hasta que elimines ese trayecto, iOS la vacíe para liberar espacio, uses “Eliminar trayectos, coches y películas” o borres la app. Si se ha borrado, la película se vuelve a hacer la próxima vez que la veas. Las copias que guardaste en Fotos o compartiste son tuyas.</td></tr>
+        <tr><td>Tus trayectos, coches y viajes de pasajero recordados</td><td>En tu teléfono hasta que los borres, uses “Borrar todos los datos” o borres la app</td></tr>
+        <tr><td>Películas</td><td>En la caché de la app, en tu teléfono, hasta que elimines ese trayecto, iOS la vacíe para liberar espacio, uses “Borrar todos los datos” o borres la app. Si se ha borrado, la película se vuelve a hacer la próxima vez que la veas. Las copias que guardaste en Fotos o compartiste son tuyas.</td></tr>
         <tr><td>ID anónimo y última conexión</td><td>Hasta que borres tus datos</td></tr>
         <tr><td>Estado de la suscripción</td><td>Mientras esté vigente y el tiempo necesario para la contabilidad. RevenueCat guarda su copia de los registros de compra según su propia política.</td></tr>
         <tr><td>Correos que nos envías</td><td>El tiempo necesario para ayudarte</td></tr>
@@ -147,8 +153,8 @@
       <ul>
         <li><strong>Permisos:</strong> puedes cambiar Ubicación, Movimiento y forma física, Fotos, Cámara y Notificaciones cuando quieras en Ajustes del iPhone → CineDrive. Para dejar de grabar automáticamente sin tocar los permisos, desactiva Grabar trayectos automáticamente en Garaje → Ajustes.</li>
         <li><strong>Llévate tus trayectos:</strong> Garaje → Ajustes → Exportar todos los trayectos (GPX) crea un archivo GPX con todos tus trayectos para que lo guardes o lo compartas.</li>
-        <li><strong>Borrar lo que hay en tu teléfono:</strong> abre un trayecto para eliminar solo ese, o usa Garaje → Ajustes → Eliminar trayectos, coches y películas para borrar todos los trayectos, coches, películas y ajustes que CineDrive guarda en tu teléfono. No se puede deshacer. Borrar la app también elimina todo lo guardado en tu teléfono.</li>
-        <li><strong>Borrar lo que hay en nuestro servidor:</strong> Garaje → Ajustes → Borrar mis datos elimina tu cuenta anónima y el registro del dispositivo de nuestro servidor.</li>
+        <li><strong>Borrar un trayecto:</strong> ábrelo y elimina solo ese.</li>
+        <li><strong>Borrarlo todo:</strong> Garaje → Ajustes → Borrar todos los datos elimina todos los trayectos, coches, películas y ajustes que CineDrive guarda en tu teléfono, y tu cuenta anónima y el registro del dispositivo de nuestro servidor. No se puede deshacer. Borrar la app también elimina todo lo guardado en tu teléfono.</li>
         <li>Puedes pedirnos una copia de tus datos, o que los corrijamos o borremos, escribiéndonos con tu código de soporte.</li>
         <li>Según dónde vivas (por ejemplo, en la Unión Europea o el Reino Unido), también tienes derecho a oponerte al tratamiento o limitarlo y a reclamar ante tu autoridad de protección de datos (en España, la AEPD).</li>
       </ul>
@@ -170,7 +176,7 @@
 
     <section id="it" lang="it">
       <h1>Informativa sulla privacy</h1>
-      <p class="updated">Ultimo aggiornamento: 20 novembre 2026</p>
+      <p class="updated">Ultimo aggiornamento: 22 novembre 2026</p>
       <p>CineDrive (“CineDrive”, “noi”) registra i tuoi viaggi in auto e trasforma ognuno in un breve film. Un’app così sa dove vai, quindi questa informativa spiega con precisione quali dati gestisce, perché, dove vanno e per quanto tempo vengono conservati.</p>
 
       <div class="summary">
@@ -178,7 +184,7 @@
         <ul>
           <li>Nessuna registrazione. I tuoi viaggi (dove sei andato, quando e quanti chilometri) sono salvati solo sul tuo telefono e non vengono mai caricati sul nostro server.</li>
           <li>I film si creano sul telefono. Le tue foto e l’immagine della tua auto vengono lette sul telefono e mai caricate.</li>
-          <li>Mappe e nomi dei luoghi sono di Apple: il telefono interroga direttamente i servizi di mappe di Apple, secondo l’informativa sulla privacy di Apple.</li>
+          <li>Mappe e nomi dei luoghi sono di Apple: il telefono interroga direttamente i servizi di mappe di Apple, secondo l’informativa sulla privacy di Apple. Le immagini e i contorni della mappa delle impronte vista da lontano sono file del nostro sito, e le foto dei luoghi vengono da Wikivoyage; a nessuno dei due viene inviato nulla su di te.</li>
           <li>Il nostro server conosce solo un ID anonimo del tuo telefono e se hai un abbonamento.</li>
           <li>CineDrive non usa l’IA. Non vendiamo i tuoi dati, non mostriamo pubblicità, non usiamo strumenti di analisi e non ti tracciamo in altre app.</li>
         </ul>
@@ -187,9 +193,11 @@
       <h2>Quali dati gestiamo e perché</h2>
       <ol>
         <li><strong>La tua posizione e i tuoi viaggi, solo sul telefono.</strong> Con la posizione su “Sempre” e il permesso Movimento e fitness, CineDrive capisce quando inizi e smetti di guidare. Quando non guidi, il GPS è spento e iOS tiene d’occhio solo una zona di circa 150 m intorno a dove hai parcheggiato, consumando pochissimo; il GPS preciso è attivo solo durante un viaggio. Ogni viaggio (i punti GPS con l’orario, la distanza, la durata e i luoghi di partenza e di arrivo) viene salvato nel database dell’app, sul tuo telefono. Non lo riceviamo. Se non consenti “Sempre”, puoi avviare i viaggi a mano.</li>
-        <li><strong>Mappe e nomi dei luoghi, da Apple.</strong> Per dare un nome di luogo (per esempio un paese) a un viaggio e alla tua mappa, l’app usa il geocodificatore di Apple. Per disegnare le mappe nell’app e nei tuoi film, usa le mappe di Apple (MapKit). Per farlo, il telefono invia ad Apple le coordinate o la zona della mappa necessarie, che Apple tratta secondo la propria informativa sulla privacy. Non passano dal nostro server. CineDrive non usa altri fornitori di mappe.</li>
+        <li><strong>Mappe e nomi dei luoghi, da Apple.</strong> Per dare un nome di luogo (per esempio un paese) a un viaggio e alla tua mappa, l’app usa il geocodificatore di Apple. Per disegnare le mappe nell’app e nei tuoi film, usa le mappe di Apple (MapKit). Per farlo, il telefono invia ad Apple le coordinate o la zona della mappa necessarie, che Apple tratta secondo la propria informativa sulla privacy. Non passano dal nostro server.</li>
+        <li><strong>File della mappa delle impronte, dal nostro sito.</strong> La vista da lontano delle mappe delle impronte (l’immagine della Terra, i contorni di paesi e regioni, i nomi e i fiumi) è fatta di file che l’app scarica dal nostro sito, litongintl.com, e conserva sul telefono. La richiesta non contiene informazioni su di te o sui tuoi viaggi, solo quale file serve; come per qualsiasi sito, il nostro hosting vede il tuo indirizzo IP.</li>
+        <li><strong>Foto dei luoghi, da Wikivoyage.</strong> Per ogni regione in cui hai guidato e a cui non hai dato una tua foto, l’app chiede a Wikivoyage (della Wikimedia Foundation) una foto, inviando solo il nome della regione in inglese, e conserva la risposta sul telefono. Wikimedia vede il tuo indirizzo IP e lo tratta secondo la propria informativa sulla privacy. Le tue foto non vengono mai inviate.</li>
         <li><strong>I tuoi film.</strong> Ogni film viene creato sul telefono con il viaggio, la mappa e, se vuoi, le tue foto e la tua auto. Resta nella cache dell’app, sul telefono. Un film che salvi in Foto o condividi va solo dove lo mandi tu; non lo riceviamo. I film gratuiti hanno una piccola filigrana “CineDrive”.</li>
-        <li><strong>Le foto e la tua auto.</strong> Se consenti l’accesso a Foto, l’app guarda solo le foto scattate tra l’inizio e la fine di un viaggio, e può metterne fino a due sul percorso nel film di quel viaggio. Per il garage, scatti o scegli una foto della tua auto; l’auto viene ritagliata sul telefono con Vision, la tecnologia di Apple, e salvata come immagine nell’app. Non viene caricato nulla.</li>
+        <li><strong>Le foto e la tua auto.</strong> Se consenti l’accesso a Foto, l’app guarda solo le foto scattate tra l’inizio e la fine di un viaggio, e può metterne fino a sei sul percorso nel film di quel viaggio. Per il garage, scatti o scegli una foto della tua auto; l’auto viene ritagliata sul telefono con Vision, la tecnologia di Apple, e salvata come immagine nell’app. Non viene caricato nulla.</li>
         <li><strong>Quello che l’app ricorda per te.</strong> Quando tocchi “Ero un passeggero”, il viaggio viene eliminato e i suoi punti di partenza e di arrivo restano sul telefono, così lo stesso tragitto viene ignorato la volta dopo. I viaggi che sembrano in treno o in aereo vengono segnalati e decidi tu. I tuoi progressi sulle strade leggendarie sono calcolati sul telefono a partire dai tuoi viaggi. Tutto questo resta sul telefono.</li>
         <li><strong>Notifiche, widget e Attività in tempo reale.</strong> Se consenti le notifiche, l’avviso “Viaggio salvato” è inviato dall’app stessa sul telefono; non c’è un server di notifiche push. Il widget nella schermata Home con i viaggi di questa settimana, e l’Attività in tempo reale nella schermata di blocco e nella Dynamic Island per i viaggi avviati a mano, sono generati sul telefono.</li>
         <li><strong>Identificativi anonimi.</strong> Al primo avvio l’app crea un ID dispositivo casuale, conservato nella memoria sicura del telefono (il Portachiavi), e un account anonimo sul nostro server. All’apertura l’app contatta il nostro server per caricare le sue impostazioni e sapere se hai un abbonamento. Il server conserva l’ID dispositivo, l’account anonimo, l’ultimo collegamento del telefono e lo stato dell’abbonamento. Non sono collegati al tuo nome né ai tuoi contatti, e non contengono alcuna posizione. L’app mostra un breve “codice assistenza” ricavato dall’ID.</li>
@@ -200,6 +208,7 @@
 
       <h2>Chi tratta i tuoi dati</h2>
       <ul>
+        <li><strong>La Wikimedia Foundation</strong> (Stati Uniti) gestisce Wikivoyage, a cui l’app chiede le foto dei luoghi come descritto sopra. Si applica la sua informativa sulla privacy.</li>
         <li><strong>Apple</strong> fornisce i servizi di mappe descritti sopra (le mappe di Apple e il geocodificatore), gestisce gli abbonamenti tramite l’App Store e conserva il backup del dispositivo se usi Backup iCloud. Si applica l’informativa sulla privacy di Apple.</li>
         <li><strong>Supabase</strong> gestisce il nostro server (database e funzioni), ospitato a Singapore. Conserva solo i dati anonimi descritti sopra, mai i tuoi viaggi.</li>
         <li><strong>RevenueCat</strong> (Stati Uniti) verifica ogni abbonamento con Apple e comunica al nostro server se sei abbonato. Riceve l’ID dispositivo casuale e i dati degli acquisti (quale piano, prezzo, valuta, paese e l’ID della transazione), mai il tuo nome, la tua posizione o i dati di pagamento. Si applica anche la sua informativa sulla privacy.</li>
@@ -209,8 +218,8 @@
       <h2>Per quanto tempo conserviamo i dati</h2>
       <table>
         <tr><th>Dati</th><th>Conservati</th></tr>
-        <tr><td>I tuoi viaggi, le auto e i tragitti da passeggero ricordati</td><td>Sul telefono finché non li elimini, usi “Elimina viaggi, auto e film” o elimini l’app</td></tr>
-        <tr><td>Film</td><td>Nella cache dell’app, sul telefono, finché non elimini quel viaggio, iOS non la svuota per liberare spazio, usi “Elimina viaggi, auto e film” o elimini l’app. Se è stato cancellato, il film viene ricreato la prossima volta che lo guardi. Le copie salvate in Foto o condivise sono tue.</td></tr>
+        <tr><td>I tuoi viaggi, le auto e i tragitti da passeggero ricordati</td><td>Sul telefono finché non li elimini, usi “Elimina tutti i dati” o elimini l’app</td></tr>
+        <tr><td>Film</td><td>Nella cache dell’app, sul telefono, finché non elimini quel viaggio, iOS non la svuota per liberare spazio, usi “Elimina tutti i dati” o elimini l’app. Se è stato cancellato, il film viene ricreato la prossima volta che lo guardi. Le copie salvate in Foto o condivise sono tue.</td></tr>
         <tr><td>ID anonimo e ultimo collegamento</td><td>Finché non elimini i tuoi dati</td></tr>
         <tr><td>Stato dell’abbonamento</td><td>Finché è valido e per il tempo necessario alla contabilità. RevenueCat conserva la sua copia dei dati di acquisto secondo la propria informativa.</td></tr>
         <tr><td>Email che ci invii</td><td>Per il tempo necessario ad aiutarti</td></tr>
@@ -220,8 +229,8 @@
       <ul>
         <li><strong>Permessi:</strong> puoi cambiare Posizione, Movimento e fitness, Foto, Fotocamera e Notifiche quando vuoi in Impostazioni dell’iPhone → CineDrive. Per fermare la registrazione automatica senza toccare i permessi, disattiva Registra i viaggi automaticamente in Garage → Impostazioni.</li>
         <li><strong>Porta via i tuoi viaggi:</strong> Garage → Impostazioni → Esporta tutti i viaggi (GPX) crea un file GPX con tutti i viaggi, da salvare o condividere.</li>
-        <li><strong>Eliminare ciò che è sul telefono:</strong> apri un viaggio per eliminare solo quello, oppure usa Garage → Impostazioni → Elimina viaggi, auto e film per cancellare tutti i viaggi, le auto, i film e le impostazioni che CineDrive conserva sul telefono. Non si può annullare. Eliminando l’app si cancella anche tutto ciò che è salvato sul telefono.</li>
-        <li><strong>Eliminare ciò che è sul nostro server:</strong> Garage → Impostazioni → Elimina i miei dati cancella dal nostro server l’account anonimo e il dispositivo.</li>
+        <li><strong>Eliminare un viaggio:</strong> aprilo ed elimina solo quello.</li>
+        <li><strong>Eliminare tutto:</strong> Garage → Impostazioni → Elimina tutti i dati cancella tutti i viaggi, le auto, i film e le impostazioni che CineDrive conserva sul telefono, e dal nostro server l’account anonimo e il dispositivo. Non si può annullare. Eliminando l’app si cancella anche tutto ciò che è salvato sul telefono.</li>
         <li>Puoi chiederci una copia dei tuoi dati, o di correggerli o cancellarli, scrivendoci con il tuo codice assistenza.</li>
         <li>A seconda di dove vivi (per esempio nell’Unione Europea o nel Regno Unito), hai anche il diritto di opporti al trattamento o di limitarlo e di presentare reclamo all’autorità per la protezione dei dati (in Italia, il Garante per la protezione dei dati personali).</li>
       </ul>
