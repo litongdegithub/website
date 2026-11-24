@@ -48,7 +48,7 @@ async function ensureAudio() {
     A.input = A.ctx.createGain();
     const push = (f) => { A.frames.push(f); if (A.frames.length > 8000) A.frames.splice(0, 2000); A.subs.forEach((fn) => fn(f)); };
     if (ENGINE === 'worklet') {
-      await A.ctx.audioWorklet.addModule('pitch-worklet.js?v=4');
+      await A.ctx.audioWorklet.addModule('pitch-worklet.js?v=5');
       A.node = new AudioWorkletNode(A.ctx, 'pitch-detector', { numberOfInputs: 1, numberOfOutputs: 1, outputChannelCount: [1] });
       const sink = A.ctx.createGain(); sink.gain.value = 0; A.node.connect(sink).connect(A.ctx.destination);
       A.input.connect(A.node);
@@ -275,20 +275,39 @@ async function exercise() {
     const lat = A.source === 'mic' ? store.get('latency_mic_' + ENGINE, 0.12) : store.get('latency_sim_' + ENGINE, 0.03);
     exState = { notes, lat, from: t0 - 1, to: notes[notes.length - 1].t1 + 0.5 };
     $('#exOut').innerHTML = '<p class="muted">唱吧…</p>';
-    const end = exState.to + lat;
+    const end = exState.to + 1.5;
     await waitUntil(end);
+    // Men often sing an octave below the guide tone (and children above): judge the note, not the octave.
+    const raw = (f, n) => 1200 * Math.log2(f.hz / n.hz);
+    const fold = (x) => x - 1200 * Math.round(x / 1200);
+    const voicedF = (f) => f.hz > 0 && f.clarity >= VOICED;
+    const framesAt = (n, L) => A.frames.filter((f) => f.t - L >= n.t0 + 0.12 && f.t - L <= n.t1);
+    // the singer's delay (device + reaction) is unknown on phones: search 0–1.5 s like the self-test, keep the middle of the best plateau
+    const scoreAt = (L) => notes.reduce((acc, n) => { const fr = framesAt(n, L); return acc + (fr.length ? fr.filter((f) => voicedF(f) && Math.abs(fold(raw(f, n))) <= 50).length / fr.length : 0); }, 0) / notes.length;
+    let used = lat;
+    {
+      const tries = []; for (let L = 0; L <= 1.5 + 1e-9; L += 0.01) tries.push([L, scoreAt(L)]);
+      const best = Math.max(...tries.map((x) => x[1]));
+      if (best > 0) { const pl = tries.filter((x) => x[1] >= best - 0.01).map((x) => x[0]); used = pl[Math.floor(pl.length / 2)]; }
+    }
     const rows = notes.map((n, i) => {
-      const fr = A.frames.filter((f) => f.t - lat >= n.t0 + 0.12 && f.t - lat <= n.t1);
-      const voiced = fr.filter((f) => f.hz > 0 && f.clarity >= VOICED).map((f) => 1200 * Math.log2(f.hz / n.hz));
-      const hit = voiced.filter((x) => Math.abs(x) <= 50).length;
-      const mean = voiced.length ? voiced.reduce((a, b) => a + b, 0) / voiced.length : NaN;
-      return { note: noteName(n.m), hit: fr.length ? hit / fr.length : 0, mean, sim: simOffs ? simOffs[i] : undefined };
+      const fr = framesAt(n, used);
+      const v = fr.filter(voicedF).map((f) => raw(f, n));
+      const folded = v.map(fold);
+      const hit = folded.filter((x) => Math.abs(x) <= 50).length;
+      const mean = folded.length ? folded.reduce((p, q) => p + q, 0) / folded.length : NaN;
+      const oct = v.length ? Math.round((v.reduce((p, q) => p + q, 0) / v.length - (Number.isFinite(mean) ? mean : 0)) / 1200) : 0;
+      return { note: noteName(n.m), hit: fr.length ? hit / fr.length : 0, mean, oct, sim: simOffs ? simOffs[i] : undefined };
     });
-    const score = Math.round((rows.reduce((a, r) => a + r.hit, 0) / rows.length) * 100);
-    $('#exOut').innerHTML = `<div class="card"><div class="summary">准确度 <b class="${score >= 80 ? 'good' : score >= 50 ? 'warn' : 'badc'}">${score}</b> / 100 <span class="muted">（已按 ${Math.round(lat * 1000)} 毫秒延迟对齐）</span></div>
+    const octs = rows.filter((r) => Number.isFinite(r.mean)).map((r) => r.oct).sort((p, q) => p - q);
+    const octave = octs.length ? octs[Math.floor(octs.length / 2)] : 0;
+    const score = Math.round((rows.reduce((p, r) => p + r.hit, 0) / rows.length) * 100);
+    const octNote = octave < 0 ? '你比引导音低 ' + -octave + ' 个八度在唱（男声很常见），按同一个音来算。' : octave > 0 ? '你比引导音高 ' + octave + ' 个八度在唱，按同一个音来算。' : '';
+    $('#exOut').innerHTML = `<div class="card"><div class="summary">准确度 <b class="${score >= 80 ? 'good' : score >= 50 ? 'warn' : 'badc'}">${score}</b> / 100 <span class="muted">（按 ${Math.round(used * 1000)} 毫秒延迟对齐）</span></div>
+      ${octNote ? '<p class="muted">' + octNote + '</p>' : ''}
       <table><tr><th>音</th><th>唱准的比例</th><th>平均偏差</th>${simOffs ? '<th>模拟歌手实际偏差</th>' : ''}</tr>
       ${rows.map((r) => `<tr><td>${r.note}</td><td class="${r.hit >= 0.8 ? 'good' : r.hit >= 0.5 ? 'warn' : 'badc'}">${Math.round(r.hit * 100)}%</td><td>${Number.isFinite(r.mean) ? (r.mean > 0 ? '+' : '') + r.mean.toFixed(0) + ' 音分' : '没听到'}</td>${simOffs ? `<td>${(r.sim > 0 ? '+' : '') + r.sim.toFixed(0)} 音分</td>` : ''}</tr>`).join('')}</table></div>`;
-    record('exercise', { score, root: noteName(root), dur, guide: $('#exGuide').checked, pad: $('#exPad').checked, latencyMs: Math.round(lat * 1000), rows: rows.map((r) => ({ note: r.note, hit: +r.hit.toFixed(2), mean: +(+r.mean).toFixed(1), sim: r.sim === undefined ? undefined : +r.sim.toFixed(1) })) });
+    record('exercise', { engine: ENGINE, score, octave, root: noteName(root), dur, guide: $('#exGuide').checked, pad: $('#exPad').checked, latencyMs: Math.round(used * 1000), rows: rows.map((r) => ({ note: r.note, hit: +r.hit.toFixed(2), mean: +(+r.mean).toFixed(1), oct: r.oct, sim: r.sim === undefined ? undefined : +r.sim.toFixed(1) })) });
   } catch (e) { $('#exOut').innerHTML = errBox(e); record('error', { where: 'exercise', msg: errText(e) }); }
   finally { setBusy(false); $('#exRun').disabled = false; }
 }
@@ -332,7 +351,7 @@ function diag() {
     lastFrame: last, mic: tr ? { state: tr.readyState, muted: tr.muted, settings: tr.getSettings ? tr.getSettings() : null } : null, source: A.source };
 }
 function exportText() {
-  return JSON.stringify({ ua: navigator.userAgent, inApp: IN_APP, engine: ENGINE, page: 'v4', diag: diag(), sampleRate: A.ctx && A.ctx.sampleRate, baseLatency: A.ctx && A.ctx.baseLatency, outputLatency: A.ctx && A.ctx.outputLatency, range: { low: range.low, high: range.high }, log }, null, 1);
+  return JSON.stringify({ ua: navigator.userAgent, inApp: IN_APP, engine: ENGINE, page: 'v5', diag: diag(), sampleRate: A.ctx && A.ctx.sampleRate, baseLatency: A.ctx && A.ctx.baseLatency, outputLatency: A.ctx && A.ctx.outputLatency, range: { low: range.low, high: range.high }, log }, null, 1);
 }
 
 // ------------------------------------------------------------------ wiring
