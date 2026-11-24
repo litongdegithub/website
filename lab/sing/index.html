@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#101014">
+<title>唱歌原型 · 音高识别测试</title>
+<style>
+  :root { --bg:#101014; --card:#1a1a20; --line:#2b2b33; --text:#f3f1ec; --dim:#9b978f; --accent:#ffb547; --ok:#5fd38d; --bad:#ff7a59; --r:16px; }
+  * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html, body { margin:0; background:var(--bg); color:var(--text); font:15px/1.45 -apple-system, "SF Pro Text", "PingFang SC", "Microsoft YaHei", sans-serif; }
+  button, select { font:inherit; color:inherit; }
+  button { border:0; background:none; cursor:pointer; touch-action:manipulation; }
+  .wrap { max-width:520px; margin:0 auto; padding:12px 16px calc(28px + env(safe-area-inset-bottom)); }
+  header { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:4px 0 10px; }
+  header b { font-size:15px; letter-spacing:.02em; white-space:nowrap; }
+  header b i { font-style:normal; color:var(--accent); }
+  .row { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+  select { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:7px 9px; font-size:13px; }
+  .tabs { display:grid; grid-template-columns:repeat(4,1fr); background:var(--card); border-radius:12px; padding:3px; margin:6px 0 12px; }
+  .tabs button { padding:9px 0; border-radius:9px; color:var(--dim); font-size:14px; }
+  .tabs button.on { background:#2c2c35; color:var(--text); font-weight:600; }
+  .card { background:var(--card); border-radius:var(--r); padding:14px; margin-bottom:12px; }
+  .card h3 { margin:0 0 6px; font-size:15px; }
+  .card p { margin:0 0 10px; color:var(--dim); font-size:13.5px; }
+  .cta { display:block; width:100%; padding:14px; border-radius:14px; background:var(--accent); color:#1a1205; font-weight:700; font-size:16px; }
+  .cta:disabled { opacity:.45; }
+  .ghost { padding:10px 14px; border-radius:12px; background:#25252d; font-size:14px; }
+  .big { text-align:center; padding:6px 0 2px; }
+  .big .note { font-size:64px; font-weight:800; letter-spacing:-.02em; line-height:1; font-variant-numeric:tabular-nums; }
+  .big .cents { font-size:15px; color:var(--dim); margin-top:6px; font-variant-numeric:tabular-nums; }
+  .needle { position:relative; height:28px; margin:12px 6px 4px; }
+  .needle .scale { position:absolute; left:0; right:0; top:13px; height:2px; background:var(--line); }
+  .needle .mid { position:absolute; left:50%; top:4px; width:2px; height:20px; background:#555; }
+  .needle .dot { position:absolute; top:6px; width:16px; height:16px; margin-left:-8px; border-radius:50%; background:var(--dim); left:50%; transition:left .08s linear, background .1s; }
+  canvas.plot { width:100%; height:220px; display:block; background:#0c0c10; border-radius:12px; }
+  table { width:100%; border-collapse:collapse; font-size:13px; font-variant-numeric:tabular-nums; }
+  th, td { text-align:left; padding:6px 4px; border-bottom:1px solid var(--line); }
+  th { color:var(--dim); font-weight:500; }
+  .good { color:var(--ok); } .warn { color:var(--accent); } .badc { color:var(--bad); }
+  .summary { font-size:15px; margin:10px 0 4px; }
+  .muted { color:var(--dim); font-size:12.5px; }
+  .chk { display:flex; align-items:center; gap:8px; padding:6px 0; font-size:14px; }
+  .chk input { width:18px; height:18px; accent-color:var(--accent); }
+  .tab { display:none; } .tab.on { display:block; }
+  .pill { display:inline-block; padding:3px 9px; border-radius:99px; background:#25252d; font-size:12px; color:var(--dim); margin:2px 4px 2px 0; }
+  textarea { width:100%; height:140px; background:#0c0c10; color:var(--dim); border:1px solid var(--line); border-radius:10px; font:12px/1.4 ui-monospace, Menlo, monospace; }
+  .start { position:fixed; inset:0; background:rgba(16,16,20,.96); z-index:20; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:24px; text-align:center; gap:14px; }
+  .start h2 { margin:0; font-size:22px; } .start p { color:var(--dim); margin:0; max-width:380px; }
+  .start.off { display:none; }
+</style>
+</head>
+<body>
+<div class="start" id="start">
+  <h2>音高识别测试</h2>
+  <p>测手机能不能准确听出你唱的音。用麦克风时请戴耳机，避免引导音被麦克风收进去（「自测」那一页例外，它故意用外放）。</p>
+  <button class="cta" id="startMic" style="max-width:320px">用麦克风开始</button>
+  <button class="ghost" id="startSim">没有麦克风？用模拟歌声</button>
+  <p class="muted" id="startErr"></p>
+</div>
+
+<div class="wrap">
+  <header>
+    <b>唱歌原型<i>·</i>音高测试</b>
+    <div class="row">
+      <select id="source" aria-label="声音来源"><option value="mic">麦克风</option><option value="sim">模拟歌声</option></select>
+      <select id="naming" aria-label="唱名"><option value="solfa">Do Re Mi</option><option value="en">C D E</option><option value="de">C D E … H</option></select>
+    </div>
+  </header>
+  <div class="tabs" id="tabs">
+    <button data-tab="tuner" class="on">调音</button><button data-tab="self">自测</button><button data-tab="ex">练习</button><button data-tab="range">音域</button>
+  </div>
+
+  <!-- tuner -->
+  <section class="tab on" id="tab-tuner">
+    <div class="card">
+      <div class="big"><div class="note" id="tNote">–</div><div class="cents" id="tCents">唱一个长音</div></div>
+      <div class="needle"><div class="scale"></div><div class="mid"></div><div class="dot" id="tDot"></div></div>
+      <div class="muted" style="text-align:center" id="tInfo">&nbsp;</div>
+    </div>
+    <canvas class="plot" id="tPlot" width="1000" height="440"></canvas>
+    <p class="muted">曲线是最近 6 秒的音高。模拟歌声模式下，这里会听到一个虚拟歌手在慢慢唱音阶。</p>
+  </section>
+
+  <!-- self test -->
+  <section class="tab" id="tab-self">
+    <div class="card">
+      <h3>标准音自测</h3>
+      <p>手机外放 8 个标准音（Do 到高音 Do），同时用麦克风听，算出识别率、误差和延迟。请把音量开到一半以上，周围保持安静。这就是评论里有人拿来测 Vocalista 的方法，它只得了 69 分。</p>
+      <button class="cta" id="selfRun">开始自测（约 9 秒）</button>
+      <div id="selfOut"></div>
+    </div>
+  </section>
+
+  <!-- exercise -->
+  <section class="tab" id="tab-ex">
+    <div class="card">
+      <h3>五度音阶练习</h3>
+      <p>跟着引导音唱 Do Re Mi Fa Sol Fa Mi Re Do。黄色条是目标音，宽度是 ±50 音分的容差。</p>
+      <div class="row" style="margin-bottom:6px">
+        <span class="muted">起始音</span><select id="exRoot"></select>
+        <span class="muted">每个音</span><select id="exDur"><option value="0.6">0.6 秒</option><option value="0.8" selected>0.8 秒</option><option value="1.1">1.1 秒</option></select>
+      </div>
+      <label class="chk"><input type="checkbox" id="exGuide" checked>播放引导音</label>
+      <label class="chk"><input type="checkbox" id="exPad">加和弦伴奏（测伴奏外放时还准不准）</label>
+      <button class="cta" id="exRun">开始</button>
+    </div>
+    <canvas class="plot" id="exPlot" width="1000" height="440"></canvas>
+    <div id="exOut"></div>
+  </section>
+
+  <!-- range -->
+  <section class="tab" id="tab-range">
+    <div class="card">
+      <h3>测音域</h3>
+      <p>先从舒服的音慢慢往下唱到最低，再往上唱到最高。每个音稳住半秒才算数。</p>
+      <div class="big"><div class="note" id="rNow" style="font-size:44px">–</div></div>
+      <div class="summary" id="rOut">还没有记录</div>
+      <div class="row"><button class="ghost" id="rReset">重来</button><button class="ghost" id="rUse">用作练习起始音</button></div>
+    </div>
+  </section>
+
+  <div class="card">
+    <h3>测试记录</h3>
+    <p>每次自测和练习的结果都会记下来。测完点「复制结果」发给我。</p>
+    <div id="dev" class="muted"></div>
+    <div class="row" style="margin-top:8px"><button class="ghost" id="copy">复制结果</button><button class="ghost" id="clear">清空记录</button></div>
+    <textarea id="copyBox" style="display:none;margin-top:8px" readonly></textarea>
+  </div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
