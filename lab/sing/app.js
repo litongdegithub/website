@@ -38,7 +38,7 @@ const log = store.get('log', []);
 function record(kind, data) { log.push({ kind, at: new Date().toISOString(), source: A.source, ...data }); store.set('log', log.slice(-60)); }
 
 // ------------------------------------------------------------------ audio
-const A = { ctx: null, node: null, input: null, master: null, mic: null, micSrc: null, source: 'mic', frames: [], subs: new Set() };
+const A = { states: [], ctx: null, node: null, input: null, master: null, mic: null, micSrc: null, source: 'mic', frames: [], subs: new Set() };
 async function ensureAudio() {
   if (!A.ctx) {
     const C = window.AudioContext || window.webkitAudioContext;
@@ -56,6 +56,11 @@ async function ensureAudio() {
     };
   }
   if (A.ctx.state !== 'running') await A.ctx.resume();
+  if (!A.watch) { // iOS may suspend or interrupt the context (mic start, calls, other apps): note it and resume on the next tap
+    A.watch = true;
+    A.ctx.onstatechange = () => { A.states.push(A.ctx.state + '@' + A.ctx.currentTime.toFixed(1)); showDevice(); };
+    document.addEventListener('pointerdown', () => { if (A.ctx.state !== 'running') A.ctx.resume().catch(() => {}); }, true);
+  }
 }
 async function setSource(s) {
   A.source = s; $('#source').value = s;
@@ -67,9 +72,19 @@ async function setSource(s) {
       A.micSrc = A.ctx.createMediaStreamSource(A.mic);
     }
     A.micSrc.connect(A.input);
+    if (A.ctx.state !== 'running') { try { await A.ctx.resume(); } catch { /* resumed on next tap */ } }
   }
   sim.restart();
   showDevice();
+}
+async function waitUntil(end) {
+  const c = A.ctx; let lastT = c.currentTime, lastWall = Date.now(), n0 = A.frames.length;
+  while (c.currentTime < end) {
+    await sleep(100);
+    if (c.currentTime !== lastT) { lastT = c.currentTime; lastWall = Date.now(); }
+    else if (Date.now() - lastWall > 2500) throw new Error('音频时钟停住了（状态 ' + c.state + '）。请点一下屏幕再试，或者重新打开页面。');
+  }
+  if (A.frames.length === n0) throw new Error('识别器没有收到任何声音数据（AudioWorklet 没在运行）。');
 }
 function framesSince(t) { const out = []; for (let i = A.frames.length - 1; i >= 0 && A.frames[i].t >= t; i--) out.push(A.frames[i]); return out.reverse(); }
 
@@ -189,7 +204,7 @@ async function selfTest() {
     notes.forEach((n) => tone(dest, n.hz, n.t0, n.t1 - n.t0));
     $('#selfOut').innerHTML = '<p class="muted" style="margin-top:10px">正在播放和识别…</p>';
     const end = notes[notes.length - 1].t1 + 0.4;
-    while (c.currentTime < end) await sleep(100);
+    await waitUntil(end);
     const rows = notes.map((n) => {
       const fr = A.frames.filter((f) => f.t >= n.t0 + 0.15 && f.t <= n.t1);
       const voiced = fr.filter((f) => f.hz > 0 && f.clarity >= VOICED).map((f) => 1200 * Math.log2(f.hz / n.hz));
@@ -236,7 +251,7 @@ async function exercise() {
     exState = { notes, lat, from: t0 - 1, to: notes[notes.length - 1].t1 + 0.5 };
     $('#exOut').innerHTML = '<p class="muted">唱吧…</p>';
     const end = exState.to;
-    while (c.currentTime < end) await sleep(100);
+    await waitUntil(end);
     const rows = notes.map((n, i) => {
       const fr = A.frames.filter((f) => f.t - lat >= n.t0 + 0.12 && f.t - lat <= n.t1);
       const voiced = fr.filter((f) => f.hz > 0 && f.clarity >= VOICED).map((f) => 1200 * Math.log2(f.hz / n.hz));
@@ -280,11 +295,19 @@ const range = {
 // ------------------------------------------------------------------ device + export
 function showDevice() {
   if (!A.ctx) return;
-  const parts = [`采样率 ${A.ctx.sampleRate} Hz`, `基础延迟 ${Math.round((A.ctx.baseLatency || 0) * 1000)} ms`, `输出延迟 ${Math.round((A.ctx.outputLatency || 0) * 1000)} ms`, `来源 ${A.source === 'mic' ? '麦克风' : '模拟歌声'}`];
+  const voiced = A.frames.filter((f) => f.hz > 0 && f.clarity >= VOICED).length;
+  const parts = [`音频 ${A.ctx.state}`, `已收到 ${A.frames.length} 帧`, `听到音 ${voiced} 帧`, `采样率 ${A.ctx.sampleRate} Hz`, `基础延迟 ${Math.round((A.ctx.baseLatency || 0) * 1000)} ms`, `输出延迟 ${Math.round((A.ctx.outputLatency || 0) * 1000)} ms`, `来源 ${A.source === 'mic' ? '麦克风' : '模拟歌声'}`];
   $('#dev').innerHTML = parts.map((p) => `<span class="pill">${p}</span>`).join('');
 }
+function diag() {
+  const tr = A.mic && A.mic.getAudioTracks()[0];
+  const last = A.frames[A.frames.length - 1];
+  return { state: A.ctx && A.ctx.state, states: A.states.slice(-10), now: A.ctx && +A.ctx.currentTime.toFixed(2), frames: A.frames.length,
+    voiced: A.frames.filter((f) => f.hz > 0 && f.clarity >= VOICED).length, maxRms: A.frames.reduce((m, f) => Math.max(m, f.rms), 0),
+    lastFrame: last, mic: tr ? { state: tr.readyState, muted: tr.muted, settings: tr.getSettings ? tr.getSettings() : null } : null, source: A.source };
+}
 function exportText() {
-  return JSON.stringify({ ua: navigator.userAgent, inApp: IN_APP, sampleRate: A.ctx && A.ctx.sampleRate, baseLatency: A.ctx && A.ctx.baseLatency, outputLatency: A.ctx && A.ctx.outputLatency, range: { low: range.low, high: range.high }, log }, null, 1);
+  return JSON.stringify({ ua: navigator.userAgent, inApp: IN_APP, diag: diag(), sampleRate: A.ctx && A.ctx.sampleRate, baseLatency: A.ctx && A.ctx.baseLatency, outputLatency: A.ctx && A.ctx.outputLatency, range: { low: range.low, high: range.high }, log }, null, 1);
 }
 
 // ------------------------------------------------------------------ wiring
@@ -335,6 +358,7 @@ function init() {
   });
   $('#clear').addEventListener('click', () => { log.length = 0; store.set('log', []); $('#copyBox').style.display = 'none'; });
   A.subs.add(onFrame);
+  setInterval(showDevice, 1000);
   range.show();
   requestAnimationFrame(draw);
 }
