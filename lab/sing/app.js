@@ -22,6 +22,17 @@ const hzOf = (m) => 440 * 2 ** ((m - 69) / 12);
 const noteName = (m) => { const r = Math.round(m); return NAMES[naming][((r % 12) + 12) % 12] + (Math.floor(r / 12) - 1); };
 const VOICED = 0.8; // clarity needed to count a frame as sung
 
+// ------------------------------------------------------------------ in-app browsers + errors
+const UA = navigator.userAgent;
+const IN_APP = /MicroMessenger|WeChat|QQ\/|Weibo|FBAN|FBAV|Instagram|Line\/|TikTok|musical_ly|Bytedance|aweme/i.test(UA);
+const errText = (e) => String((e && (e.name ? e.name + ': ' : '') + (e.message || '')) || e).slice(0, 200);
+function errBox(e) {
+  const msg = errText(e), mic = /NotAllowed|Permission|NotFound|getUserMedia|undefined is not an object|mediaDevices/i.test(msg);
+  return '<p class="badc" style="margin-top:10px">出错了：' + msg.replace(/</g, '&lt;') + '</p><p class="muted">' +
+    (IN_APP ? '你是在微信等 App 里打开的，它们常常不让网页用麦克风。请点右上角「···」，选「在 Safari 中打开」，再测一次。' :
+      mic ? '麦克风没有打开。请在系统设置里允许浏览器使用麦克风，或者用 Safari 打开。' : '请把这段文字截图发给我。') + '</p>';
+}
+
 // ------------------------------------------------------------------ results log
 const log = store.get('log', []);
 function record(kind, data) { log.push({ kind, at: new Date().toISOString(), source: A.source, ...data }); store.set('log', log.slice(-60)); }
@@ -203,7 +214,8 @@ async function selfTest() {
       ${rows.map((r) => `<tr><td>${r.note}</td><td class="${r.rate >= 0.9 ? 'good' : r.rate >= 0.6 ? 'warn' : 'badc'}">${Math.round(r.rate * 100)}%</td><td>${Number.isFinite(r.cents) ? r.cents.toFixed(1) : '–'}</td><td>${r.octave}</td><td>${Number.isFinite(r.latency) ? Math.round(r.latency * 1000) + ' ms' : '–'}</td></tr>`).join('')}
       </table>`;
     record('selftest', { score, avgCents: +err.toFixed(2), latencyMs: Math.round(lat * 1000), rows: rows.map((r) => ({ ...r, rate: +r.rate.toFixed(2), cents: +(+r.cents).toFixed(1), latency: Math.round(r.latency * 1000) })) });
-  } finally { setBusy(false); $('#selfRun').disabled = false; }
+  } catch (e) { $('#selfOut').innerHTML = errBox(e); record('error', { where: 'selftest', msg: errText(e) }); }
+  finally { setBusy(false); $('#selfRun').disabled = false; }
 }
 
 // ------------------------------------------------------------------ exercise
@@ -237,7 +249,8 @@ async function exercise() {
       <table><tr><th>音</th><th>唱准的比例</th><th>平均偏差</th>${simOffs ? '<th>模拟歌手实际偏差</th>' : ''}</tr>
       ${rows.map((r) => `<tr><td>${r.note}</td><td class="${r.hit >= 0.8 ? 'good' : r.hit >= 0.5 ? 'warn' : 'badc'}">${Math.round(r.hit * 100)}%</td><td>${Number.isFinite(r.mean) ? (r.mean > 0 ? '+' : '') + r.mean.toFixed(0) + ' 音分' : '没听到'}</td>${simOffs ? `<td>${(r.sim > 0 ? '+' : '') + r.sim.toFixed(0)} 音分</td>` : ''}</tr>`).join('')}</table></div>`;
     record('exercise', { score, root: noteName(root), dur, guide: $('#exGuide').checked, pad: $('#exPad').checked, latencyMs: Math.round(lat * 1000), rows: rows.map((r) => ({ note: r.note, hit: +r.hit.toFixed(2), mean: +(+r.mean).toFixed(1), sim: r.sim === undefined ? undefined : +r.sim.toFixed(1) })) });
-  } finally { setBusy(false); $('#exRun').disabled = false; }
+  } catch (e) { $('#exOut').innerHTML = errBox(e); record('error', { where: 'exercise', msg: errText(e) }); }
+  finally { setBusy(false); $('#exRun').disabled = false; }
 }
 
 // ------------------------------------------------------------------ range
@@ -271,7 +284,7 @@ function showDevice() {
   $('#dev').innerHTML = parts.map((p) => `<span class="pill">${p}</span>`).join('');
 }
 function exportText() {
-  return JSON.stringify({ ua: navigator.userAgent, sampleRate: A.ctx && A.ctx.sampleRate, baseLatency: A.ctx && A.ctx.baseLatency, outputLatency: A.ctx && A.ctx.outputLatency, range: { low: range.low, high: range.high }, log }, null, 1);
+  return JSON.stringify({ ua: navigator.userAgent, inApp: IN_APP, sampleRate: A.ctx && A.ctx.sampleRate, baseLatency: A.ctx && A.ctx.baseLatency, outputLatency: A.ctx && A.ctx.outputLatency, range: { low: range.low, high: range.high }, log }, null, 1);
 }
 
 // ------------------------------------------------------------------ wiring
@@ -293,9 +306,10 @@ function draw() {
 }
 async function start(src) {
   try { await setSource(src); $('#start').classList.add('off'); }
-  catch (e) { $('#startErr').textContent = '打不开麦克风：' + (e && e.message || e) + '。手机上需要 https 地址；也可以先用模拟歌声。'; }
+  catch (e) { record('error', { where: 'start', msg: errText(e) }); $('#startErr').innerHTML = errBox(e); }
 }
 function init() {
+  if (IN_APP) $('#inApp').style.display = 'block';
   const rs = $('#exRoot');
   for (let m = 43; m <= 69; m++) { const o = document.createElement('option'); o.value = m; o.textContent = noteName(m); rs.appendChild(o); }
   rs.value = store.get('root', 57);
