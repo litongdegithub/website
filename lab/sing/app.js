@@ -38,22 +38,37 @@ const log = store.get('log', []);
 function record(kind, data) { log.push({ kind, at: new Date().toISOString(), source: A.source, ...data }); store.set('log', log.slice(-60)); }
 
 // ------------------------------------------------------------------ audio
+const ENGINE = new URLSearchParams(location.search).get('engine') === 'analyser' ? 'analyser' : 'worklet';
+const MAX_LAG = 2.0; // longest delay the self-test looks for (seconds)
 const A = { states: [], ctx: null, node: null, input: null, master: null, mic: null, micSrc: null, source: 'mic', frames: [], subs: new Set() };
 async function ensureAudio() {
   if (!A.ctx) {
     const C = window.AudioContext || window.webkitAudioContext;
     A.ctx = new C({ latencyHint: 'interactive' });
-    await A.ctx.audioWorklet.addModule('pitch-worklet.js');
-    A.node = new AudioWorkletNode(A.ctx, 'pitch-detector', { numberOfInputs: 1, numberOfOutputs: 1, outputChannelCount: [1] });
-    const sink = A.ctx.createGain(); sink.gain.value = 0; A.node.connect(sink).connect(A.ctx.destination);
-    A.input = A.ctx.createGain(); A.input.connect(A.node);
+    A.input = A.ctx.createGain();
+    const push = (f) => { A.frames.push(f); if (A.frames.length > 8000) A.frames.splice(0, 2000); A.subs.forEach((fn) => fn(f)); };
+    if (ENGINE === 'worklet') {
+      await A.ctx.audioWorklet.addModule('pitch-worklet.js?v=4');
+      A.node = new AudioWorkletNode(A.ctx, 'pitch-detector', { numberOfInputs: 1, numberOfOutputs: 1, outputChannelCount: [1] });
+      const sink = A.ctx.createGain(); sink.gain.value = 0; A.node.connect(sink).connect(A.ctx.destination);
+      A.input.connect(A.node);
+      A.node.port.onmessage = (e) => push(e.data);
+    } else {
+      // no AudioWorklet at all (WebKit has bugs with worklets plus the mic): read the newest 2048 samples ~47 times a second
+      const an = A.ctx.createAnalyser(); an.fftSize = 2048; A.input.connect(an);
+      const sink = A.ctx.createGain(); sink.gain.value = 0; an.connect(sink).connect(A.ctx.destination);
+      const buf = new Float32Array(2048), W = 1024;
+      setInterval(() => {
+        if (A.ctx.state !== 'running') return;
+        an.getFloatTimeDomainData(buf);
+        let q = 0; for (let i = 2048 - W; i < 2048; i++) q += buf[i] * buf[i];
+        const rms = Math.sqrt(q / W);
+        const r = rms > 0.003 ? mpm(buf, A.ctx.sampleRate, W) : { hz: 0, clarity: 0 };
+        push({ t: A.ctx.currentTime, hz: r.hz, clarity: r.clarity, rms });
+      }, 21);
+    }
     A.bg = A.ctx.createGain(); A.bg.connect(A.input); // background singer (sim mode), muted while a test runs
     A.master = A.ctx.createGain(); A.master.gain.value = 0.9; A.master.connect(A.ctx.destination);
-    A.node.port.onmessage = (e) => {
-      const f = e.data; A.frames.push(f);
-      if (A.frames.length > 8000) A.frames.splice(0, 2000);
-      A.subs.forEach((fn) => fn(f));
-    };
   }
   if (A.ctx.state !== 'running') await A.ctx.resume();
   if (!A.watch) { // iOS may suspend or interrupt the context (mic start, calls, other apps): note it and resume on the next tap
@@ -203,32 +218,42 @@ async function selfTest() {
     const dest = A.source === 'mic' ? A.master : A.input;
     notes.forEach((n) => tone(dest, n.hz, n.t0, n.t1 - n.t0));
     $('#selfOut').innerHTML = '<p class="muted" style="margin-top:10px">正在播放和识别…</p>';
-    const end = notes[notes.length - 1].t1 + 0.4;
+    const end = notes[notes.length - 1].t1 + MAX_LAG + 0.3; // keep listening long enough to catch a late signal
     await waitUntil(end);
+    const cents = (f, n) => 1200 * Math.log2(f.hz / n.hz);
+    const voiced = (f) => f.hz > 0 && f.clarity >= VOICED;
+    // Try every delay from 0 to MAX_LAG and keep the one where the most frames match their note.
+    // This separates "how late the sound arrives" from "how accurately it is heard".
+    const scoreAt = (L) => notes.reduce((acc, n) => {
+      const fr = A.frames.filter((f) => f.t - L >= n.t0 + 0.15 && f.t - L <= n.t1);
+      return acc + (fr.length ? fr.filter((f) => voiced(f) && Math.abs(cents(f, n)) <= 50).length / fr.length : 0);
+    }, 0) / notes.length;
+    const tries = [];
+    for (let L = 0; L <= MAX_LAG + 1e-9; L += 0.01) tries.push([L, scoreAt(L)]);
+    const best = Math.max(...tries.map((x) => x[1]));
+    const plateau = tries.filter((x) => x[1] >= best - 0.01).map((x) => x[0]); // many delays score the same: take the middle
+    const lat = plateau[Math.floor(plateau.length / 2)];
     const rows = notes.map((n) => {
-      const fr = A.frames.filter((f) => f.t >= n.t0 + 0.15 && f.t <= n.t1);
-      const voiced = fr.filter((f) => f.hz > 0 && f.clarity >= VOICED).map((f) => 1200 * Math.log2(f.hz / n.hz));
-      const inTune = voiced.filter((x) => Math.abs(x) <= 50);
-      const octave = voiced.filter((x) => Math.abs(x) > 600).length;
-      const first = A.frames.find((f) => f.t >= n.t0 && f.hz > 0 && f.clarity >= VOICED && Math.abs(1200 * Math.log2(f.hz / n.hz)) <= 50);
+      const fr = A.frames.filter((f) => f.t - lat >= n.t0 + 0.15 && f.t - lat <= n.t1);
+      const vc = fr.filter(voiced).map((f) => cents(f, n));
+      const inTune = vc.filter((x) => Math.abs(x) <= 50);
       const med = inTune.length ? [...inTune].sort((a, b) => a - b)[Math.floor(inTune.length / 2)] : NaN;
-      return { note: noteName(n.m), frames: fr.length, rate: fr.length ? inTune.length / fr.length : 0, cents: med, octave, latency: first ? first.t - n.t0 : NaN };
+      return { note: noteName(n.m), frames: fr.length, rate: fr.length ? inTune.length / fr.length : 0, cents: med, octave: vc.filter((x) => Math.abs(x) > 600).length };
     });
     const ok = rows.filter((r) => Number.isFinite(r.cents));
     const rate = rows.reduce((a, r) => a + r.rate, 0) / rows.length;
     const err = ok.length ? ok.reduce((a, r) => a + Math.abs(r.cents), 0) / ok.length : NaN;
-    const lats = rows.map((r) => r.latency).filter(Number.isFinite).sort((a, b) => a - b);
-    const lat = lats.length ? lats[Math.floor(lats.length / 2)] : NaN;
-    if (Number.isFinite(lat)) store.set('latency_' + A.source, lat);
+    const raw = Math.round(scoreAt(0) * 100);
+    if (rate > 0.3) store.set('latency_' + A.source + '_' + ENGINE, lat);
     const score = Math.round(rate * 100);
     $('#selfOut').innerHTML = `
       <div class="summary">得分 <b class="${score >= 90 ? 'good' : score >= 70 ? 'warn' : 'badc'}">${score}</b> / 100
-        · 平均误差 ${Number.isFinite(err) ? err.toFixed(1) : '–'} 音分 · 延迟 ${Number.isFinite(lat) ? Math.round(lat * 1000) : '–'} 毫秒</div>
-      <p class="muted">得分 = 识别成功且在 ±50 音分内的比例。误差来自喇叭、麦克风和识别加在一起。</p>
-      <table><tr><th>音</th><th>识别率</th><th>误差</th><th>八度错</th><th>延迟</th></tr>
-      ${rows.map((r) => `<tr><td>${r.note}</td><td class="${r.rate >= 0.9 ? 'good' : r.rate >= 0.6 ? 'warn' : 'badc'}">${Math.round(r.rate * 100)}%</td><td>${Number.isFinite(r.cents) ? r.cents.toFixed(1) : '–'}</td><td>${r.octave}</td><td>${Number.isFinite(r.latency) ? Math.round(r.latency * 1000) + ' ms' : '–'}</td></tr>`).join('')}
+        · 平均误差 ${Number.isFinite(err) ? err.toFixed(1) : '–'} 音分 · 延迟 <b>${Math.round(lat * 1000)}</b> 毫秒</div>
+      <p class="muted">得分 = 按测出的延迟对齐后，识别成功且在 ±50 音分内的比例。不对齐时的得分是 ${raw}。识别方式：${ENGINE === 'worklet' ? 'AudioWorklet' : 'Analyser'}。</p>
+      <table><tr><th>音</th><th>识别率</th><th>误差</th><th>八度错</th></tr>
+      ${rows.map((r) => `<tr><td>${r.note}</td><td class="${r.rate >= 0.9 ? 'good' : r.rate >= 0.6 ? 'warn' : 'badc'}">${Math.round(r.rate * 100)}%</td><td>${Number.isFinite(r.cents) ? r.cents.toFixed(1) : '–'}</td><td>${r.octave}</td></tr>`).join('')}
       </table>`;
-    record('selftest', { score, avgCents: +err.toFixed(2), latencyMs: Math.round(lat * 1000), rows: rows.map((r) => ({ ...r, rate: +r.rate.toFixed(2), cents: +(+r.cents).toFixed(1), latency: Math.round(r.latency * 1000) })) });
+    record('selftest', { engine: ENGINE, score, raw, avgCents: +(+err).toFixed(2), latencyMs: Math.round(lat * 1000), rows: rows.map((r) => ({ ...r, rate: +r.rate.toFixed(2), cents: +(+r.cents).toFixed(1) })) });
   } catch (e) { $('#selfOut').innerHTML = errBox(e); record('error', { where: 'selftest', msg: errText(e) }); }
   finally { setBusy(false); $('#selfRun').disabled = false; }
 }
@@ -247,10 +272,10 @@ async function exercise() {
     if ($('#exPad').checked) pad(A.master, [root - 12, root - 5, root + 4 - 12], t0, notes[notes.length - 1].t1 - t0);
     let simOffs = null;
     if (A.source === 'sim') simOffs = singer(notes, { err: 20, vibrato: 20 });
-    const lat = A.source === 'mic' ? store.get('latency_mic', 0.12) : store.get('latency_sim', 0.03);
+    const lat = A.source === 'mic' ? store.get('latency_mic_' + ENGINE, 0.12) : store.get('latency_sim_' + ENGINE, 0.03);
     exState = { notes, lat, from: t0 - 1, to: notes[notes.length - 1].t1 + 0.5 };
     $('#exOut').innerHTML = '<p class="muted">唱吧…</p>';
-    const end = exState.to;
+    const end = exState.to + lat;
     await waitUntil(end);
     const rows = notes.map((n, i) => {
       const fr = A.frames.filter((f) => f.t - lat >= n.t0 + 0.12 && f.t - lat <= n.t1);
@@ -296,7 +321,7 @@ const range = {
 function showDevice() {
   if (!A.ctx) return;
   const voiced = A.frames.filter((f) => f.hz > 0 && f.clarity >= VOICED).length;
-  const parts = [`音频 ${A.ctx.state}`, `已收到 ${A.frames.length} 帧`, `听到音 ${voiced} 帧`, `采样率 ${A.ctx.sampleRate} Hz`, `基础延迟 ${Math.round((A.ctx.baseLatency || 0) * 1000)} ms`, `输出延迟 ${Math.round((A.ctx.outputLatency || 0) * 1000)} ms`, `来源 ${A.source === 'mic' ? '麦克风' : '模拟歌声'}`];
+  const parts = [`识别 ${ENGINE === 'worklet' ? 'AudioWorklet' : 'Analyser'}`, `音频 ${A.ctx.state}`, `已收到 ${A.frames.length} 帧`, `听到音 ${voiced} 帧`, `采样率 ${A.ctx.sampleRate} Hz`, `基础延迟 ${Math.round((A.ctx.baseLatency || 0) * 1000)} ms`, `输出延迟 ${Math.round((A.ctx.outputLatency || 0) * 1000)} ms`, `来源 ${A.source === 'mic' ? '麦克风' : '模拟歌声'}`];
   $('#dev').innerHTML = parts.map((p) => `<span class="pill">${p}</span>`).join('');
 }
 function diag() {
@@ -307,7 +332,7 @@ function diag() {
     lastFrame: last, mic: tr ? { state: tr.readyState, muted: tr.muted, settings: tr.getSettings ? tr.getSettings() : null } : null, source: A.source };
 }
 function exportText() {
-  return JSON.stringify({ ua: navigator.userAgent, inApp: IN_APP, diag: diag(), sampleRate: A.ctx && A.ctx.sampleRate, baseLatency: A.ctx && A.ctx.baseLatency, outputLatency: A.ctx && A.ctx.outputLatency, range: { low: range.low, high: range.high }, log }, null, 1);
+  return JSON.stringify({ ua: navigator.userAgent, inApp: IN_APP, engine: ENGINE, page: 'v4', diag: diag(), sampleRate: A.ctx && A.ctx.sampleRate, baseLatency: A.ctx && A.ctx.baseLatency, outputLatency: A.ctx && A.ctx.outputLatency, range: { low: range.low, high: range.high }, log }, null, 1);
 }
 
 // ------------------------------------------------------------------ wiring
@@ -337,6 +362,8 @@ function init() {
   for (let m = 43; m <= 69; m++) { const o = document.createElement('option'); o.value = m; o.textContent = noteName(m); rs.appendChild(o); }
   rs.value = store.get('root', 57);
   rs.addEventListener('change', () => store.set('root', +rs.value));
+  $('#engine').value = ENGINE;
+  $('#engine').addEventListener('change', (e) => { const u = new URL(location.href); u.searchParams.set('engine', e.target.value); location.href = u.toString(); });
   $('#naming').value = naming;
   $('#naming').addEventListener('change', (e) => { naming = e.target.value; store.set('naming', naming); [...rs.options].forEach((o) => { o.textContent = noteName(+o.value); }); range.show(); });
   $('#tabs').addEventListener('click', (e) => {

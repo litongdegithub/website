@@ -89,7 +89,8 @@
     <div class="card">
       <h3>标准音自测</h3>
       <p>手机外放 8 个标准音（Do 到高音 Do），同时用麦克风听，算出识别率、误差和延迟。请把音量开到一半以上，周围保持安静。这就是评论里有人拿来测 Vocalista 的方法，它只得了 69 分。</p>
-      <button class="cta" id="selfRun">开始自测（约 9 秒）</button>
+      <div class="row" style="margin-bottom:10px"><span class="muted">识别方式</span><select id="engine"><option value="worklet">AudioWorklet</option><option value="analyser">Analyser（备用）</option></select></div>
+      <button class="cta" id="selfRun">开始自测（约 11 秒）</button>
       <div id="selfOut"></div>
     </div>
   </section>
@@ -130,6 +131,7 @@
     <textarea id="copyBox" style="display:none;margin-top:8px" readonly></textarea>
   </div>
 </div>
-<script src="app.js"></script>
+<script src="pitch-worklet.js?v=4"></script>
+<script src="app.js?v=4"></script>
 </body>
 </html>
