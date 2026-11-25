@@ -1,0 +1,42 @@
+/* Cantolino's colours on top of the shared style.css: mint on pale mint paper, peach marks (docs/APP7-BRAND.md). */
+:root {
+  --bg: #f3faf6;
+  --surface: #e1f3ea;
+  --text: #16332a;
+  --muted: #62776f;
+  --line: #d6eadf;
+  --accent: #1b6b51;
+  --brand: #1f8f6a;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f1d18;
+    --surface: #172a23;
+    --text: #eaf6f0;
+    --muted: #9bb5aa;
+    --line: #24392f;
+    --accent: #6fd3ab;
+    --brand: #6fd3ab;
+  }
+}
+
+/* Rounded and friendly, like the app. No web font is loaded: Apple devices use SF Pro Rounded. */
+h1,
+.brand {
+  font-family: ui-rounded, "SF Pro Rounded", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.brand {
+  font-size: 22px;
+}
+
+/* the hand-drawn peach underline under the brand's last letters */
+.brand span {
+  color: var(--brand);
+  text-decoration: underline wavy #ff9f80;
+  text-underline-offset: 5px;
+  text-decoration-thickness: 2px;
+}
